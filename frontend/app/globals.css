@@ -13,8 +13,10 @@
   --color-paper: #f7f6f2;
   --color-border: #e5e3dc;
 
-  --font-family-serif: Georgia, Cambria, serif;
-  --font-family-display: Georgia, serif;
+  --font-family-sans:    var(--font-sans), system-ui, sans-serif;
+  --font-family-serif:   var(--font-serif), Georgia, serif;
+  --font-family-display: var(--font-serif), Georgia, serif;
+  --font-family-prose:   var(--font-prose), Georgia, serif;
 }
 
 html {
@@ -37,6 +39,8 @@ body {
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
 .text-balance { text-wrap: balance; }
+
+.font-prose { font-family: var(--font-family-prose); }
 
 .line-clamp-2 {
   display: -webkit-box;

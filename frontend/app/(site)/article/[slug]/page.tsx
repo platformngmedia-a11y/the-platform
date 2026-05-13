@@ -118,7 +118,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               {article.mainImage?.alt && <p className="text-xs text-muted mt-2 text-center italic">{article.mainImage.alt}</p>}
             </div>
           )}
-          <div className="article-body">
+          <div className="article-body font-prose">
             <PortableText value={article.body} components={ptComponents} />
           </div>
           {article.tags?.length > 0 && (

@@ -7,38 +7,21 @@ interface Comment {
   id: string; name: string; message: string; createdAt: string; likes: number
 }
 
-const seed: Comment[] = [
-  {
-    id: '1',
-    name: 'Chukwuemeka N.',
-    message: 'This is exactly the kind of reporting Nigeria needs. Factual, balanced, no sensationalism.',
-    createdAt: new Date(Date.now() - 7200000).toISOString(),
-    likes: 24,
-  },
-  {
-    id: '2',
-    name: 'Fatima A.',
-    message: 'Very insightful. I shared this with my WhatsApp group — everyone should read this before forming opinions.',
-    createdAt: new Date(Date.now() - 3600000).toISOString(),
-    likes: 11,
-  },
-]
-
 export function CommentsSection({ articleId }: { articleId: string }) {
-  const [comments,   setComments]   = useState<Comment[]>(seed)
+  const [comments,   setComments]   = useState<Comment[]>([])
   const [name,       setName]       = useState('')
   const [message,    setMessage]    = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [done,       setDone]       = useState(false)
-  const [likedIds,   setLikedIds]   = useState<Set<string>>(new Set())
+  const [likedIds,   setLikedIds]   = useState<string[]>([])
 
   function handleLike(id: string) {
-    if (likedIds.has(id)) return
-    setLikedIds(prev => new Set([...prev, id]))
+    if (likedIds.includes(id)) return
+    setLikedIds(prev => [...prev, id])
     setComments(prev => prev.map(c => c.id === id ? { ...c, likes: c.likes + 1 } : c))
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault()
     if (!name.trim() || !message.trim()) return
     setSubmitting(true)
@@ -107,7 +90,7 @@ export function CommentsSection({ articleId }: { articleId: string }) {
                 <button
                   onClick={() => handleLike(comment.id)}
                   className={`flex items-center gap-1.5 text-xs transition-colors ${
-                    likedIds.has(comment.id) ? 'text-navy font-semibold' : 'text-muted hover:text-navy'
+                    likedIds.includes(comment.id) ? 'text-navy font-semibold' : 'text-muted hover:text-navy'
                   }`}
                 >
                   <ThumbsUp size={13} />

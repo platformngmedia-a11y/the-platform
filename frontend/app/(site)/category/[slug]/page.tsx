@@ -29,7 +29,6 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         <p className="text-[10px] font-black uppercase tracking-widest text-muted mb-1">Section</p>
         <h1 className="font-serif text-4xl font-black text-ink">{category.title}</h1>
         {category.description && <p className="text-muted mt-2 max-w-xl leading-relaxed">{category.description}</p>}
-        <p className="text-xs text-muted mt-2">{articles.length} stories</p>
       </div>
       {heroArticle && (
         <div className="mb-10 pb-10 border-b border-line">

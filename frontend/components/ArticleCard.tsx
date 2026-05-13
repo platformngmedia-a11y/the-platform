@@ -61,7 +61,7 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
     return (
       <article className="group">
         {imageUrl && (
-          <a href={href} className="block w-full aspect-video overflow-hidden rounded bg-paper relative mb-3">
+          <a href={href} className="block w-full aspect-[16/7] overflow-hidden rounded bg-paper relative mb-3">
             <Image
               src={imageUrl} alt={article.mainImage?.alt ?? article.title} fill
               className="object-contain group-hover:scale-[1.02] transition-transform duration-500"
