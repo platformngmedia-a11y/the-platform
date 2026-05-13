@@ -13,10 +13,10 @@
   --color-paper: #f7f6f2;
   --color-border: #e5e3dc;
 
-  --font-family-sans:    var(--font-sans), system-ui, sans-serif;
-  --font-family-serif:   var(--font-serif), Georgia, serif;
-  --font-family-display: var(--font-serif), Georgia, serif;
-  --font-family-prose:   var(--font-prose), Georgia, serif;
+  --font-family-sans:    var(--font-sans), Arial, sans-serif;
+  --font-family-serif:   var(--font-sans), Arial, sans-serif;
+  --font-family-display: var(--font-sans), Arial, sans-serif;
+  --font-family-prose:   var(--font-sans), Arial, sans-serif;
 }
 
 html {

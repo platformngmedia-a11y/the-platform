@@ -52,7 +52,7 @@ const ptComponents = {
     h2: ({ children }: any) => <h2 className="font-serif text-2xl font-bold text-ink mt-10 mb-4 border-b border-line pb-2">{children}</h2>,
     h3: ({ children }: any) => <h3 className="font-serif text-xl font-bold text-ink mt-8 mb-3">{children}</h3>,
     blockquote: ({ children }: any) => <blockquote className="border-l-4 border-gold pl-5 italic text-muted my-8 text-lg font-serif leading-relaxed">{children}</blockquote>,
-    normal: ({ children }: any) => <p className="text-ink/85 text-base leading-[1.85] mb-5">{children}</p>,
+    normal: ({ children }: any) => <p className="text-ink/90 text-[17px] leading-[1.6] mb-5">{children}</p>,
   },
   marks: {
     link: ({ children, value }: any) => <a href={value?.href} target="_blank" rel="noopener noreferrer" className="text-navy underline underline-offset-2 hover:text-navy-dark">{children}</a>,
@@ -91,8 +91,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               This is a developing story. We will update as more details emerge.
             </div>
           )}
-          <h1 className="font-serif text-3xl md:text-4xl font-black text-ink leading-tight mb-4">{article.title}</h1>
-          {article.excerpt && <p className="text-lg text-muted leading-relaxed mb-6 font-serif italic">{article.excerpt}</p>}
+          <h1 className="text-[2rem] md:text-[2.5rem] font-extrabold text-ink leading-[1.15] mb-4 tracking-tight">{article.title}</h1>
+          {article.excerpt && <p className="text-[1.125rem] text-muted leading-[1.5] mb-6 font-semibold">{article.excerpt}</p>}
           <div className="flex flex-wrap items-center justify-between gap-4 py-4 border-y border-line mb-6">
             <div>
               {article.author?.name && <p className="text-sm font-bold text-ink">By {article.author.name}</p>}
