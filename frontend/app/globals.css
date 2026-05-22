@@ -13,10 +13,10 @@
   --color-paper: #f7f6f2;
   --color-border: #e5e3dc;
 
-  --font-family-sans:    var(--font-sans), 'Open Sans', sans-serif;
-  --font-family-serif:   var(--font-sans), 'Open Sans', sans-serif;
-  --font-family-display: var(--font-sans), 'Open Sans', sans-serif;
-  --font-family-prose:   var(--font-sans), 'Open Sans', sans-serif;
+  --font-family-sans:    var(--font-sans), 'Noto Sans', sans-serif;
+  --font-family-serif:   var(--font-sans), 'Noto Sans', sans-serif;
+  --font-family-display: var(--font-sans), 'Noto Sans', sans-serif;
+  --font-family-prose:   var(--font-sans), 'Noto Sans', sans-serif;
 }
 
 html {

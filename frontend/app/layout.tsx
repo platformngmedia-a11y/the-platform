@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Open_Sans } from 'next/font/google'
+import { Noto_Sans } from 'next/font/google'
 import './globals.css'
 import { SiteHeader }     from '@/components/SiteHeader'
 import { SiteFooter }     from '@/components/SiteFooter'
@@ -9,9 +9,9 @@ import { VisualEditing }  from 'next-sanity/visual-editing'
 import { draftMode }      from 'next/headers'
 import { breakingNewsQuery, allCategoriesQuery } from '@/lib/sanity/queries'
 
-const openSans = Open_Sans({
+const notoSans = Noto_Sans({
   subsets:  ['latin'],
-  weight:   ['400', '500', '600', '700', '800'],
+  weight:   ['400', '500', '600', '700', '800', '900'],
   variable: '--font-sans',
 })
 
@@ -38,7 +38,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="en">
-      <body className={`${openSans.variable} font-sans`}>
+      <body className={`${notoSans.variable} font-sans`}>
         {breakingNews.length > 0 && <BreakingBanner items={breakingNews} />}
         <SiteHeader categories={categories} />
         <main className="min-h-screen">{children}</main>
