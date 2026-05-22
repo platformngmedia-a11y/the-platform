@@ -1,5 +1,5 @@
-import { fetchSources } from '@/lib/fetcher'
-import { getSourcesByTier, getAllSources } from '@/lib/sourceRegistry'
+import { getJsSources } from '@/lib/sourceRegistry'
+import { fetchJsSources } from '@/lib/headlessFetcher'
 import { adminClient } from '@/lib/sanity/adminClient'
 
 export const maxDuration = 300
@@ -10,34 +10,13 @@ export async function GET(request: Request) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { searchParams } = new URL(request.url)
-  const tierParam = searchParams.get('tier')
-  const currentHour = new Date().getUTCHours()
-
-  let sourcesToFetch = []
-
-  if (tierParam) {
-    if (tierParam === 'all') {
-      sourcesToFetch = getAllSources().filter((s) => s.active && !s.requiresJs)
-    } else {
-      sourcesToFetch = getSourcesByTier(parseInt(tierParam) as 1 | 2 | 3)
-    }
-  } else {
-    sourcesToFetch = [...getSourcesByTier(1)]
-    if ([6, 12, 18].includes(currentHour)) {
-      sourcesToFetch = [...sourcesToFetch, ...getSourcesByTier(2)]
-    }
-    if (currentHour === 6) {
-      sourcesToFetch = [...sourcesToFetch, ...getSourcesByTier(3)]
-    }
-  }
-
-  if (sourcesToFetch.length === 0) {
-    return Response.json({ message: 'No sources to fetch this run' })
+  const sources = getJsSources()
+  if (sources.length === 0) {
+    return Response.json({ message: 'No JS sources configured' })
   }
 
   const startTime = Date.now()
-  const { leads, errors } = await fetchSources(sourcesToFetch, 5)
+  const { leads, errors } = await fetchJsSources(sources, 2)
 
   let newLeadsCreated = 0
   let duplicatesSkipped = 0
@@ -72,13 +51,13 @@ export async function GET(request: Request) {
 
   return Response.json({
     summary: {
-      sourcesChecked:   sourcesToFetch.length,
-      leadsFound:       leads.length,
+      sourcesChecked:  sources.length,
+      leadsFound:      leads.length,
       newLeadsCreated,
       duplicatesSkipped,
-      errors:           errors.length,
-      durationSeconds:  Math.round((Date.now() - startTime) / 1000),
-      timestamp:        new Date().toISOString(),
+      errors:          errors.length,
+      durationSeconds: Math.round((Date.now() - startTime) / 1000),
+      timestamp:       new Date().toISOString(),
     },
     errors: errors.slice(0, 20),
   })

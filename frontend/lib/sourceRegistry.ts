@@ -3,17 +3,18 @@ export type SourceLevel = 'federal' | 'state' | 'ngo' | 'international' | 'sport
 export type Zone = 'south_west' | 'south_south' | 'south_east' | 'north_central' | 'north_west' | 'north_east'
 
 export interface Source {
-  name:       string
-  url:        string
-  pressPath:  string
-  feedUrl?:   string
-  tier:       1 | 2 | 3
-  level:      SourceLevel
-  category:   string
-  zone?:      Zone
-  strategy:   Strategy
-  selector:   string
-  active:     boolean
+  name:        string
+  url:         string
+  pressPath:   string
+  feedUrl?:    string
+  tier:        1 | 2 | 3
+  level:       SourceLevel
+  category:    string
+  zone?:       Zone
+  strategy:    Strategy
+  selector:    string
+  active:      boolean
+  requiresJs?: boolean  // JS SPA — skip regular fetcher, use headless browser
 }
 
 const sources: Source[] = [
@@ -986,23 +987,21 @@ const sources: Source[] = [
   },
 
   // ── SPORT — Governing Bodies (Tier 2) ────────────────────────────────────────
-  // Note: FIFA, UEFA, CAF, Olympics and World Athletics are JS-rendered SPAs.
-  // active: false until headless-browser support is added to the fetcher.
   {
     name: 'FIFA',
     url: 'https://www.fifa.com',
     pressPath: '/en/news',
     tier: 2, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/en/news/"]',
-    active: false,
+    active: true, requiresJs: true,
   },
   {
     name: 'UEFA',
     url: 'https://www.uefa.com',
     pressPath: '/insideuefa/mediaservices/',
     tier: 2, level: 'sport', category: 'sport',
-    strategy: 'html', selector: 'a[href*="news"]',
-    active: false,
+    strategy: 'html', selector: 'a[href*="/news/"]',
+    active: true, requiresJs: true,
   },
   {
     name: 'CAF — Confederation of African Football',
@@ -1010,7 +1009,7 @@ const sources: Source[] = [
     pressPath: '/en/news/',
     tier: 2, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/en/news/"]',
-    active: false,
+    active: true, requiresJs: true,
   },
   {
     name: 'International Olympic Committee',
@@ -1018,7 +1017,7 @@ const sources: Source[] = [
     pressPath: '/ioc/news',
     tier: 2, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/ioc/news/"]',
-    active: false,
+    active: true, requiresJs: true,
   },
   {
     name: 'World Athletics',
@@ -1026,7 +1025,7 @@ const sources: Source[] = [
     pressPath: '/news',
     tier: 2, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/news/"]',
-    active: false,
+    active: true, requiresJs: true,
   },
   {
     name: 'Nigeria Football Federation',
@@ -1038,8 +1037,6 @@ const sources: Source[] = [
   },
 
   // ── SPORT — Premier League Clubs (Tier 3) ────────────────────────────────────
-  // Arsenal & Liverpool serve server-rendered HTML — confirmed working.
-  // Chelsea, Man City, Tottenham are JS SPAs — active: false.
   {
     name: 'Arsenal FC',
     url: 'https://www.arsenal.com',
@@ -1070,7 +1067,7 @@ const sources: Source[] = [
     pressPath: '/en/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/article"]',
-    active: false,
+    active: true, requiresJs: true,
   },
   {
     name: 'Manchester City',
@@ -1078,7 +1075,7 @@ const sources: Source[] = [
     pressPath: '/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/"]',
-    active: false,
+    active: true, requiresJs: true,
   },
   {
     name: 'Tottenham Hotspur',
@@ -1086,11 +1083,10 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/"]',
-    active: false,
+    active: true, requiresJs: true,
   },
 
   // ── SPORT — La Liga Clubs (Tier 3) ───────────────────────────────────────────
-  // Barcelona serves server-rendered links. Real Madrid is a JS SPA.
   {
     name: 'FC Barcelona',
     url: 'https://www.fcbarcelona.com',
@@ -1105,7 +1101,7 @@ const sources: Source[] = [
     pressPath: '/en/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/"]',
-    active: false,
+    active: true, requiresJs: true,
   },
 
   // ── SPORT — Bundesliga (Tier 3) ──────────────────────────────────────────────
@@ -1115,11 +1111,10 @@ const sources: Source[] = [
     pressPath: '/en/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/en/news/"]',
-    active: false,
+    active: true, requiresJs: true,
   },
 
   // ── SPORT — Serie A (Tier 3) ─────────────────────────────────────────────────
-  // Inter Milan confirmed server-rendered. Juventus & AC Milan are JS SPAs.
   {
     name: 'Inter Milan',
     url: 'https://www.inter.it',
@@ -1134,7 +1129,7 @@ const sources: Source[] = [
     pressPath: '/en/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/articles/"]',
-    active: false,
+    active: true, requiresJs: true,
   },
   {
     name: 'AC Milan',
@@ -1142,7 +1137,7 @@ const sources: Source[] = [
     pressPath: '/en/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/articles/"]',
-    active: false,
+    active: true, requiresJs: true,
   },
 
   // ── SPORT — Ligue 1 (Tier 3) ─────────────────────────────────────────────────
@@ -1152,7 +1147,7 @@ const sources: Source[] = [
     pressPath: '/en/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/"]',
-    active: false,
+    active: true, requiresJs: true,
   },
 ]
 
@@ -1161,7 +1156,11 @@ export function getAllSources(): Source[] {
 }
 
 export function getSourcesByTier(tier: 1 | 2 | 3): Source[] {
-  return sources.filter((s) => s.tier === tier && s.active)
+  return sources.filter((s) => s.tier === tier && s.active && !s.requiresJs)
+}
+
+export function getJsSources(): Source[] {
+  return sources.filter((s) => s.active && s.requiresJs)
 }
 
 export function getStats() {
