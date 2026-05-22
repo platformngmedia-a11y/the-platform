@@ -1,5 +1,5 @@
 export type Strategy = 'rss' | 'html'
-export type SourceLevel = 'federal' | 'state' | 'ngo' | 'international'
+export type SourceLevel = 'federal' | 'state' | 'ngo' | 'international' | 'sport'
 export type Zone = 'south_west' | 'south_south' | 'south_east' | 'north_central' | 'north_west' | 'north_east'
 
 export interface Source {
@@ -984,6 +984,176 @@ const sources: Source[] = [
     strategy: 'rss', selector: '',
     active: true,
   },
+
+  // ── SPORT — Governing Bodies (Tier 2) ────────────────────────────────────────
+  // Note: FIFA, UEFA, CAF, Olympics and World Athletics are JS-rendered SPAs.
+  // active: false until headless-browser support is added to the fetcher.
+  {
+    name: 'FIFA',
+    url: 'https://www.fifa.com',
+    pressPath: '/en/news',
+    tier: 2, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href*="/en/news/"]',
+    active: false,
+  },
+  {
+    name: 'UEFA',
+    url: 'https://www.uefa.com',
+    pressPath: '/insideuefa/mediaservices/',
+    tier: 2, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href*="news"]',
+    active: false,
+  },
+  {
+    name: 'CAF — Confederation of African Football',
+    url: 'https://www.cafonline.com',
+    pressPath: '/en/news/',
+    tier: 2, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href*="/en/news/"]',
+    active: false,
+  },
+  {
+    name: 'International Olympic Committee',
+    url: 'https://olympics.com',
+    pressPath: '/ioc/news',
+    tier: 2, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href*="/ioc/news/"]',
+    active: false,
+  },
+  {
+    name: 'World Athletics',
+    url: 'https://worldathletics.org',
+    pressPath: '/news',
+    tier: 2, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href*="/news/news/"]',
+    active: false,
+  },
+  {
+    name: 'Nigeria Football Federation',
+    url: 'https://thenff.com',
+    pressPath: '/news/',
+    tier: 2, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'article h2 a, .entry-title a, h3 a',
+    active: true,
+  },
+
+  // ── SPORT — Premier League Clubs (Tier 3) ────────────────────────────────────
+  // Arsenal & Liverpool serve server-rendered HTML — confirmed working.
+  // Chelsea, Man City, Tottenham are JS SPAs — active: false.
+  {
+    name: 'Arsenal FC',
+    url: 'https://www.arsenal.com',
+    pressPath: '/news',
+    tier: 3, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a.responsive-card__wrapper',
+    active: true,
+  },
+  {
+    name: 'Liverpool FC',
+    url: 'https://www.liverpoolfc.com',
+    pressPath: '/news',
+    tier: 3, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href^="/news/"]',
+    active: true,
+  },
+  {
+    name: 'Manchester United',
+    url: 'https://www.manutd.com',
+    pressPath: '/en/news',
+    tier: 3, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href^="/en/news/"]:not([href*="/listing/"])',
+    active: true,
+  },
+  {
+    name: 'Chelsea FC',
+    url: 'https://www.chelseafc.com',
+    pressPath: '/en/news',
+    tier: 3, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href*="/news/article"]',
+    active: false,
+  },
+  {
+    name: 'Manchester City',
+    url: 'https://www.mancity.com',
+    pressPath: '/news',
+    tier: 3, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href*="/news/"]',
+    active: false,
+  },
+  {
+    name: 'Tottenham Hotspur',
+    url: 'https://www.tottenhamhotspur.com',
+    pressPath: '/news/',
+    tier: 3, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href*="/news/"]',
+    active: false,
+  },
+
+  // ── SPORT — La Liga Clubs (Tier 3) ───────────────────────────────────────────
+  // Barcelona serves server-rendered links. Real Madrid is a JS SPA.
+  {
+    name: 'FC Barcelona',
+    url: 'https://www.fcbarcelona.com',
+    pressPath: '/en/news',
+    tier: 3, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href^="/en/news/"]',
+    active: true,
+  },
+  {
+    name: 'Real Madrid CF',
+    url: 'https://www.realmadrid.com',
+    pressPath: '/en/news',
+    tier: 3, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href*="/news/"]',
+    active: false,
+  },
+
+  // ── SPORT — Bundesliga (Tier 3) ──────────────────────────────────────────────
+  {
+    name: 'FC Bayern Munich',
+    url: 'https://fcbayern.com',
+    pressPath: '/en/news',
+    tier: 3, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href*="/en/news/"]',
+    active: false,
+  },
+
+  // ── SPORT — Serie A (Tier 3) ─────────────────────────────────────────────────
+  // Inter Milan confirmed server-rendered. Juventus & AC Milan are JS SPAs.
+  {
+    name: 'Inter Milan',
+    url: 'https://www.inter.it',
+    pressPath: '/en/news',
+    tier: 3, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href^="/en/news/"]',
+    active: true,
+  },
+  {
+    name: 'Juventus FC',
+    url: 'https://www.juventus.com',
+    pressPath: '/en/news',
+    tier: 3, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href*="/news/articles/"]',
+    active: false,
+  },
+  {
+    name: 'AC Milan',
+    url: 'https://www.acmilan.com',
+    pressPath: '/en/news',
+    tier: 3, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href*="/news/articles/"]',
+    active: false,
+  },
+
+  // ── SPORT — Ligue 1 (Tier 3) ─────────────────────────────────────────────────
+  {
+    name: 'Paris Saint-Germain',
+    url: 'https://www.psg.fr',
+    pressPath: '/en/news',
+    tier: 3, level: 'sport', category: 'sport',
+    strategy: 'html', selector: 'a[href*="/news/"]',
+    active: false,
+  },
 ]
 
 export function getAllSources(): Source[] {
@@ -1003,10 +1173,11 @@ export function getStats() {
     tier2: active.filter((s) => s.tier === 2).length,
     tier3: active.filter((s) => s.tier === 3).length,
     byLevel: {
-      federal: active.filter((s) => s.level === 'federal').length,
-      state:   active.filter((s) => s.level === 'state').length,
-      ngo:     active.filter((s) => s.level === 'ngo').length,
+      federal:       active.filter((s) => s.level === 'federal').length,
+      state:         active.filter((s) => s.level === 'state').length,
+      ngo:           active.filter((s) => s.level === 'ngo').length,
       international: active.filter((s) => s.level === 'international').length,
+      sport:         active.filter((s) => s.level === 'sport').length,
     },
   }
 }
