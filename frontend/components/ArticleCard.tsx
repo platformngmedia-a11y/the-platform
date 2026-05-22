@@ -75,7 +75,7 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
           {cat && <CategoryPill cat={cat} />}
         </div>
         <a href={href}>
-          <h1 className="text-xl font-extrabold text-ink leading-[1.2] group-hover:text-navy transition-colors mb-1.5">
+          <h1 className="text-xl font-extrabold text-ink leading-[1.2] group-hover:text-[#1d70b8] transition-colors mb-1.5">
             {article.title}
           </h1>
         </a>
@@ -103,7 +103,7 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
         <div className="flex-1 min-w-0">
           {cat && <CategoryPill cat={cat} />}
           <a href={href}>
-            <h3 className="text-sm font-bold text-ink group-hover:text-navy transition-colors line-clamp-2 mt-1 leading-[1.3]">
+            <h3 className="text-sm font-bold text-ink group-hover:text-[#1d70b8] transition-colors line-clamp-2 mt-1 leading-[1.3]">
               {article.title}
             </h3>
           </a>
@@ -129,7 +129,7 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
         <div>
           {cat && <CategoryPill cat={cat} />}
           <a href={href}>
-            <h3 className="text-sm font-bold text-ink group-hover:text-navy transition-colors line-clamp-2 mt-1 leading-[1.3]">
+            <h3 className="text-sm font-bold text-ink group-hover:text-[#1d70b8] transition-colors line-clamp-2 mt-1 leading-[1.3]">
               {article.title}
             </h3>
           </a>
@@ -145,7 +145,7 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
       <article className="group border-b border-border pb-3 last:border-0">
         {cat && <CategoryPill cat={cat} />}
         <a href={href}>
-          <h3 className="text-sm font-bold text-ink group-hover:text-navy transition-colors line-clamp-2 mt-1 leading-[1.3]">
+          <h3 className="text-sm font-bold text-ink group-hover:text-[#1d70b8] transition-colors line-clamp-2 mt-1 leading-[1.3]">
             {article.title}
           </h3>
         </a>
@@ -164,7 +164,7 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
         <div>
           {cat && <CategoryPill cat={cat} />}
           <a href={href}>
-            <h3 className="text-sm font-semibold text-ink group-hover:text-navy transition-colors line-clamp-2 mt-1">
+            <h3 className="text-sm font-semibold text-ink group-hover:text-[#1d70b8] transition-colors line-clamp-2 mt-1">
               {article.title}
             </h3>
           </a>
@@ -187,7 +187,7 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
       )}
       {cat && <CategoryPill cat={cat} />}
       <a href={href}>
-        <h2 className="font-bold text-ink group-hover:text-navy transition-colors line-clamp-2 mt-1.5 leading-[1.3] text-[15px]">
+        <h2 className="font-bold text-ink group-hover:text-[#1d70b8] transition-colors line-clamp-2 mt-1.5 leading-[1.3] text-[15px]">
           {article.title}
         </h2>
       </a>

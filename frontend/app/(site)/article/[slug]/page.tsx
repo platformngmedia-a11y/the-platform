@@ -91,7 +91,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               This is a developing story. We will update as more details emerge.
             </div>
           )}
-          <h1 className="text-[1.75rem] md:text-[2.2rem] font-bold text-ink leading-[1.2] tracking-[-0.01em] mb-3">{article.title}</h1>
+          <h1 className="text-[1.75rem] md:text-[2.2rem] font-bold text-ink leading-[1.2] tracking-[-0.01em] mb-3 hover:text-[#1d70b8] transition-colors duration-200 cursor-default">{article.title}</h1>
           {article.excerpt && <p className="text-[1.1rem] text-ink leading-[1.55] mb-6 font-normal border-l-4 border-navy pl-4">{article.excerpt}</p>}
           <div className="flex flex-wrap items-center justify-between gap-4 py-4 border-y border-line mb-6">
             <div>
