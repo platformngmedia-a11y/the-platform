@@ -6,21 +6,21 @@ import { Clock } from 'lucide-react'
 type Variant = 'hero' | 'top' | 'grid' | 'horizontal' | 'minimal' | 'editors'
 interface Props { article: any; variant?: Variant }
 
-const catColors: Record<string, string> = {
-  Politics:   'bg-blue-50 text-blue-800',
-  Economy:    'bg-amber-50 text-amber-800',
-  Nigeria:    'bg-green-50 text-green-800',
-  World:      'bg-purple-50 text-purple-800',
-  Health:     'bg-teal-50 text-teal-800',
-  Sport:      'bg-orange-50 text-orange-800',
-  Technology: 'bg-sky-50 text-sky-800',
-  Opinion:    'bg-gray-100 text-gray-700',
-}
 
 function CategoryPill({ cat }: { cat: any }) {
-  const style = catColors[cat?.title] ?? 'bg-navy/10 text-navy'
+  const colorMap: Record<string, string> = {
+    Politics:   'text-blue-700',
+    Economy:    'text-amber-700',
+    Nigeria:    'text-green-700',
+    World:      'text-purple-700',
+    Health:     'text-teal-700',
+    Sport:      'text-orange-700',
+    Technology: 'text-sky-700',
+    Opinion:    'text-gray-600',
+  }
+  const color = colorMap[cat?.title] ?? 'text-navy'
   return (
-    <span className={`inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${style}`}>
+    <span className={`inline-block text-[11px] font-bold uppercase tracking-wide ${color}`}>
       {cat?.title}
     </span>
   )
@@ -61,10 +61,10 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
     return (
       <article className="group">
         {imageUrl && (
-          <a href={href} className="block w-full aspect-[16/7] overflow-hidden rounded bg-paper relative mb-3">
+          <a href={href} className="block w-full aspect-[16/7] overflow-hidden bg-paper relative mb-3">
             <Image
               src={imageUrl} alt={article.mainImage?.alt ?? article.title} fill
-              className="object-contain group-hover:scale-[1.02] transition-transform duration-500"
+              className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
             />
           </a>
         )}
@@ -92,7 +92,7 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
     return (
       <article className="group flex gap-3 border-b border-border pb-4 last:border-0 last:pb-0">
         {imageUrl && (
-          <a href={href} className="shrink-0 w-20 h-16 overflow-hidden rounded bg-paper relative">
+          <a href={href} className="shrink-0 w-20 h-16 overflow-hidden bg-paper relative">
             <Image
               src={urlForImage(article.mainImage).width(160).height(128).url()}
               alt={article.mainImage?.alt ?? article.title} fill
@@ -118,7 +118,7 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
     return (
       <article className="group flex gap-3 items-start">
         {imageUrl && (
-          <a href={href} className="shrink-0 w-28 h-20 overflow-hidden rounded bg-paper relative">
+          <a href={href} className="shrink-0 w-28 h-20 overflow-hidden bg-paper relative">
             <Image
               src={urlForImage(article.mainImage).width(224).height(160).url()}
               alt={article.mainImage?.alt ?? article.title} fill
@@ -178,7 +178,7 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
   return (
     <article className="group">
       {imageUrl && (
-        <a href={href} className="block aspect-[16/10] overflow-hidden rounded-lg bg-paper mb-3 relative">
+        <a href={href} className="block aspect-[16/10] overflow-hidden bg-paper mb-3 relative">
           <Image
             src={imageUrl} alt={article.mainImage?.alt ?? article.title} fill
             className="object-cover group-hover:scale-[1.02] transition-transform duration-300"

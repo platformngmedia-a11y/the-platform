@@ -138,7 +138,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <aside className="space-y-8">
           <div className="sticky top-24 space-y-8">
             <div>
-              <h3 className="text-[11px] font-black uppercase tracking-widest text-muted border-b-2 border-navy pb-2 mb-4">Related Stories</h3>
+              <h3 className="text-base font-extrabold text-ink border-b-2 border-ink pb-2 mb-4">Related Stories</h3>
               <div className="space-y-5">
                 {related.map((a: any) => <ArticleCard key={a._id} article={a} variant="horizontal" />)}
               </div>
@@ -149,7 +149,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </aside>
       </div>
       <section className="mt-16 border-t border-line pt-10">
-        <h2 className="text-[11px] font-black uppercase tracking-widest text-muted border-b-2 border-navy pb-2 mb-6 inline-block">More from The Platform</h2>
+        <h2 className="text-lg font-extrabold text-ink border-b-2 border-ink pb-2 mb-6 inline-block">More from The Platform</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {related.map((a: any) => <ArticleCard key={a._id} article={a} />)}
         </div>
