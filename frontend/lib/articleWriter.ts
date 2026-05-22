@@ -109,12 +109,27 @@ Return ONLY a valid JSON object with this exact structure (no markdown, no code 
 }
 `
 
-  const message = await anthropic.messages.create({
-    model:      'claude-sonnet-4-6',
-    max_tokens: 2048,
-    system:     PLATFORM_PROMPT,
-    messages:   [{ role: 'user', content: userMessage }],
-  })
+  let message: Anthropic.Message | undefined
+  const maxRetries = 3
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      message = await anthropic.messages.create({
+        model:      'claude-sonnet-4-6',
+        max_tokens: 2048,
+        system:     PLATFORM_PROMPT,
+        messages:   [{ role: 'user', content: userMessage }],
+      }) as Anthropic.Message
+      break
+    } catch (err: any) {
+      const isOverloaded = err?.status === 529 || err?.error?.error?.type === 'overloaded_error'
+      if (isOverloaded && attempt < maxRetries) {
+        await new Promise(r => setTimeout(r, attempt * 8000))
+        continue
+      }
+      throw err
+    }
+  }
+  if (!message) throw new Error('Claude API unavailable after retries — please try again shortly')
 
   const raw = message.content[0].type === 'text' ? message.content[0].text : ''
   const jsonMatch = raw.match(/\{[\s\S]*\}/)
