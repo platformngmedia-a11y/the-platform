@@ -503,6 +503,42 @@ const sources: Source[] = [
     strategy: 'rss', selector: '',
     active: true,
   },
+  {
+    name: 'Policy and Legal Advocacy Centre',
+    url: 'https://placng.org',
+    pressPath: '/i/',
+    feedUrl: 'https://placng.org/i/feed/',
+    tier: 2, level: 'ngo', category: 'politics',
+    strategy: 'rss', selector: '',
+    active: true,
+  },
+  {
+    name: 'Paradigm Initiative',
+    url: 'https://paradigmhq.org',
+    pressPath: '/news/',
+    feedUrl: 'https://paradigmhq.org/feed/',
+    tier: 2, level: 'ngo', category: 'technology',
+    strategy: 'rss', selector: '',
+    active: true,
+  },
+  {
+    name: 'Media Rights Agenda',
+    url: 'https://mediarightsagenda.org',
+    pressPath: '/news/',
+    feedUrl: 'https://mediarightsagenda.org/feed/',
+    tier: 2, level: 'ngo', category: 'nigeria',
+    strategy: 'rss', selector: '',
+    active: true,
+  },
+  {
+    name: 'CLEEN Foundation',
+    url: 'https://cleen.org',
+    pressPath: '/news/',
+    feedUrl: 'https://cleen.org/feed/',
+    tier: 2, level: 'ngo', category: 'nigeria',
+    strategy: 'rss', selector: '',
+    active: true,
+  },
 
   // International — public domain & intergovernmental sources only (no copyright risk)
 
