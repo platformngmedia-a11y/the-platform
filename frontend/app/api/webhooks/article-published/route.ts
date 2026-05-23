@@ -34,22 +34,22 @@ export async function POST(request: Request) {
   const articleUrl = `${siteUrl}/article/${payload.slug?.current}`
 
   let imageUrl: string | undefined
-  let twitterImageUrl: string | undefined
+  let instagramImageUrl: string | undefined
   try {
     if (payload.mainImage?.asset) {
-      imageUrl        = urlForImage(payload.mainImage).width(1200).height(630).url()
-      twitterImageUrl = urlForImage(payload.mainImage).width(800).height(418).quality(80).url()
+      imageUrl          = urlForImage(payload.mainImage).width(1200).height(630).url()
+      instagramImageUrl = urlForImage(payload.mainImage).width(700).height(700).quality(60).url()
     }
   } catch { /* no image */ }
 
   const category = payload.categories?.[0]?.title ?? ''
 
   const results = await postToSocial({
-    title:    payload.title,
-    excerpt:  payload.excerpt ?? '',
-    url:      articleUrl,
+    title:            payload.title,
+    excerpt:          payload.excerpt ?? '',
+    url:              articleUrl,
     imageUrl,
-    twitterImageUrl,
+    instagramImageUrl,
     category,
   })
 

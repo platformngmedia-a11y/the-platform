@@ -13,12 +13,12 @@ const CREATE_POST = `
 `
 
 export interface BufferPostOptions {
-  title:            string
-  excerpt:          string
-  url:              string
-  imageUrl?:        string  // full-size image (Facebook, Instagram)
-  twitterImageUrl?: string  // smaller image ≤5MB for Twitter
-  category?:        string
+  title:             string
+  excerpt:           string
+  url:               string
+  imageUrl?:         string  // full-size image for Facebook
+  instagramImageUrl?: string // smaller square image for Instagram (≤8MB)
+  category?:         string
 }
 
 function facebookText({ title, excerpt, url }: BufferPostOptions): string {
@@ -110,13 +110,13 @@ export async function postToSocial(options: BufferPostOptions): Promise<{
   }
 
   if (igChannelId) {
-    if (options.imageUrl) {
+    if (options.instagramImageUrl) {
       tasks.push(
-        createPost(igChannelId, instagramCaption(options), options.url, options.title, options.excerpt, options.imageUrl, { instagram: { type: 'post', shouldShareToFeed: true } })
+        createPost(igChannelId, instagramCaption(options), options.url, options.title, options.excerpt, options.instagramImageUrl, { instagram: { type: 'post', shouldShareToFeed: true } })
           .then((r) => { results.instagram = r })
       )
     } else {
-      results.instagram = { success: false, error: 'Skipped — Instagram requires an image' }
+      results.instagram = { success: false, error: 'Skipped — Instagram requires an instagramImageUrl' }
     }
   }
 
