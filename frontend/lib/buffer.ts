@@ -24,6 +24,12 @@ function facebookText({ title, excerpt, url }: BufferPostOptions): string {
   return `${title}\n\n${excerpt}\n\n🔗 ${url}`
 }
 
+function twitterText({ title, url }: BufferPostOptions): string {
+  // 280 chars: title + url + buffer = keep title under ~230 chars
+  const truncated = title.length > 220 ? title.substring(0, 217) + '...' : title
+  return `${truncated}\n\n🔗 ${url}`
+}
+
 function instagramCaption({ title, excerpt, category }: BufferPostOptions): string {
   const tag = category ? `#${category.replace(/\s+/g, '')}` : ''
   return `${excerpt}\n\n📰 ${title}\n\n🔗 Link in bio\n\n#Nigeria #NigeriaNews #ThePlatform ${tag}`.trim()
@@ -47,6 +53,8 @@ async function gql(query: string, variables: Record<string, unknown>) {
   return json.data
 }
 
+interface PostResult { success: boolean; id?: string; error?: string }
+
 async function createPost(
   channelId: string,
   text: string,
@@ -54,8 +62,8 @@ async function createPost(
   linkTitle: string,
   linkDescription: string,
   imageUrl?: string,
-  facebookType: 'post' | 'story' | 'reel' = 'post',
-): Promise<{ success: boolean; id?: string; error?: string }> {
+  metadata?: Record<string, unknown>,
+): Promise<PostResult> {
   try {
     const assets = imageUrl
       ? [{ image: { url: imageUrl, thumbnailUrl: imageUrl } }]
@@ -68,7 +76,7 @@ async function createPost(
         schedulingType: 'automatic',
         mode:           'shareNow',
         assets,
-        metadata:       { facebook: { type: facebookType } },
+        ...(metadata ? { metadata } : {}),
         saveToDraft:    false,
       },
     })
@@ -82,18 +90,20 @@ async function createPost(
 }
 
 export async function postToSocial(options: BufferPostOptions): Promise<{
-  facebook?: { success: boolean; id?: string; error?: string }
-  instagram?: { success: boolean; id?: string; error?: string }
+  facebook?:  PostResult
+  instagram?: PostResult
+  twitter?:   PostResult
 }> {
-  const results: Record<string, { success: boolean; id?: string; error?: string }> = {}
+  const results: Record<string, PostResult> = {}
   const tasks: Promise<void>[] = []
 
   const fbChannelId = process.env.BUFFER_FACEBOOK_CHANNEL_ID
   const igChannelId = process.env.BUFFER_INSTAGRAM_CHANNEL_ID
+  const twChannelId = process.env.BUFFER_TWITTER_CHANNEL_ID
 
   if (fbChannelId) {
     tasks.push(
-      createPost(fbChannelId, facebookText(options), options.url, options.title, options.excerpt, options.imageUrl)
+      createPost(fbChannelId, facebookText(options), options.url, options.title, options.excerpt, options.imageUrl, { facebook: { type: 'post' } })
         .then((r) => { results.facebook = r })
     )
   }
@@ -107,6 +117,13 @@ export async function postToSocial(options: BufferPostOptions): Promise<{
     } else {
       results.instagram = { success: false, error: 'Skipped — Instagram requires an image' }
     }
+  }
+
+  if (twChannelId) {
+    tasks.push(
+      createPost(twChannelId, twitterText(options), options.url, options.title, options.excerpt, options.imageUrl)
+        .then((r) => { results.twitter = r })
+    )
   }
 
   await Promise.all(tasks)
