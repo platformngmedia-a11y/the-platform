@@ -13,11 +13,12 @@ const CREATE_POST = `
 `
 
 export interface BufferPostOptions {
-  title:     string
-  excerpt:   string
-  url:       string
-  imageUrl?: string
-  category?: string
+  title:            string
+  excerpt:          string
+  url:              string
+  imageUrl?:        string  // full-size image (Facebook, Instagram)
+  twitterImageUrl?: string  // smaller image ≤5MB for Twitter
+  category?:        string
 }
 
 function facebookText({ title, excerpt, url }: BufferPostOptions): string {
@@ -111,7 +112,7 @@ export async function postToSocial(options: BufferPostOptions): Promise<{
   if (igChannelId) {
     if (options.imageUrl) {
       tasks.push(
-        createPost(igChannelId, instagramCaption(options), options.url, options.title, options.excerpt, options.imageUrl)
+        createPost(igChannelId, instagramCaption(options), options.url, options.title, options.excerpt, options.imageUrl, { instagram: { type: 'post' } })
           .then((r) => { results.instagram = r })
       )
     } else {
@@ -120,8 +121,9 @@ export async function postToSocial(options: BufferPostOptions): Promise<{
   }
 
   if (twChannelId) {
+    // Use a smaller image (800px) to stay under Twitter's 5MB limit, or post link-only
     tasks.push(
-      createPost(twChannelId, twitterText(options), options.url, options.title, options.excerpt, options.imageUrl)
+      createPost(twChannelId, twitterText(options), options.url, options.title, options.excerpt, options.twitterImageUrl)
         .then((r) => { results.twitter = r })
     )
   }
