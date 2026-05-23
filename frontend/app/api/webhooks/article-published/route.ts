@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     return Response.json({ skipped: true, reason: 'No publishedAt — still a draft' })
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://theplatformng.com'
+  const siteUrl = 'https://theplatformng.com'
   const articleUrl = `${siteUrl}/article/${payload.slug?.current}`
 
   let imageUrl: string | undefined
