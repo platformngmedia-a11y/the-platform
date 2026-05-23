@@ -112,7 +112,7 @@ export async function postToSocial(options: BufferPostOptions): Promise<{
   if (igChannelId) {
     if (options.imageUrl) {
       tasks.push(
-        createPost(igChannelId, instagramCaption(options), options.url, options.title, options.excerpt, options.imageUrl, { instagram: { type: 'post' } })
+        createPost(igChannelId, instagramCaption(options), options.url, options.title, options.excerpt, options.imageUrl, { instagram: { type: 'post', shouldShareToFeed: true } })
           .then((r) => { results.instagram = r })
       )
     } else {
@@ -121,9 +121,9 @@ export async function postToSocial(options: BufferPostOptions): Promise<{
   }
 
   if (twChannelId) {
-    // Use a smaller image (800px) to stay under Twitter's 5MB limit, or post link-only
+    // Twitter: no image — avoids file size limit and works for all articles
     tasks.push(
-      createPost(twChannelId, twitterText(options), options.url, options.title, options.excerpt, options.twitterImageUrl)
+      createPost(twChannelId, twitterText(options), options.url, options.title, options.excerpt, undefined)
         .then((r) => { results.twitter = r })
     )
   }
