@@ -33,7 +33,7 @@ function twitterText({ title, url }: BufferPostOptions): string {
 
 function instagramCaption({ title, excerpt, category }: BufferPostOptions): string {
   const tag = category ? `#${category.replace(/\s+/g, '')}` : ''
-  return `${excerpt}\n\n📰 ${title}\n\n🔗 Link in bio\n\n#Nigeria #NigeriaNews #ThePlatform ${tag}`.trim()
+  return `${excerpt}\n\n📰 ${title}\n\n🔗 Full article — link in first comment\n\n#Nigeria #NigeriaNews #ThePlatform ${tag}`.trim()
 }
 
 async function gql(query: string, variables: Record<string, unknown>) {
@@ -64,6 +64,7 @@ async function createPost(
   linkDescription: string,
   imageUrl?: string,
   metadata?: Record<string, unknown>,
+  firstComment?: string,
 ): Promise<PostResult> {
   try {
     const assets = imageUrl
@@ -77,7 +78,8 @@ async function createPost(
         schedulingType: 'automatic',
         mode:           'shareNow',
         assets,
-        ...(metadata ? { metadata } : {}),
+        ...(metadata     ? { metadata }                           : {}),
+        ...(firstComment ? { firstComment: { text: firstComment } } : {}),
         saveToDraft:    false,
       },
     })
@@ -112,7 +114,7 @@ export async function postToSocial(options: BufferPostOptions): Promise<{
   if (igChannelId) {
     if (options.instagramImageUrl) {
       tasks.push(
-        createPost(igChannelId, instagramCaption(options), options.url, options.title, options.excerpt, options.instagramImageUrl, { instagram: { type: 'post', shouldShareToFeed: true } })
+        createPost(igChannelId, instagramCaption(options), options.url, options.title, options.excerpt, options.instagramImageUrl, { instagram: { type: 'post', shouldShareToFeed: true } }, options.url)
           .then((r) => { results.instagram = r })
       )
     } else {
