@@ -131,9 +131,9 @@ const sources: Source[] = [
   {
     name: 'Lagos State Government',
     url: 'https://lagosstate.gov.ng',
-    pressPath: '/news/',
+    pressPath: '/news/all/1',
     tier: 1, level: 'state', category: 'nigeria', zone: 'south_west',
-    strategy: 'html', selector: 'article h2 a, .entry-title a, .post-title a',
+    strategy: 'html', selector: 'h2.entry_title a',
     active: true,
   },
   {
@@ -142,7 +142,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 1, level: 'state', category: 'nigeria', zone: 'north_central',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Rivers State Government',
@@ -150,7 +150,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 1, level: 'state', category: 'nigeria', zone: 'south_south',
     strategy: 'html', selector: 'article h2 a, .entry-title a, .post-title a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
 
   // ── TIER 2: Checked 3× daily (6am, 12pm, 6pm UTC) ───────────────────────────
@@ -384,22 +384,22 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 2, level: 'state', category: 'nigeria', zone: 'north_west',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Kaduna State Government',
     url: 'https://kdsg.gov.ng',
-    pressPath: '/news/',
+    pressPath: '/media/',
     tier: 2, level: 'state', category: 'nigeria', zone: 'north_west',
-    strategy: 'html', selector: 'article h2 a, .entry-title a, .post-title a',
+    strategy: 'html', selector: '.jet-smart-tiles__box-link',
     active: true,
   },
   {
     name: 'Oyo State Government',
     url: 'https://oyostate.gov.ng',
-    pressPath: '/news/',
+    pressPath: '/category/news/',
     tier: 2, level: 'state', category: 'nigeria', zone: 'south_west',
-    strategy: 'html', selector: 'article h2 a, .entry-title a, h3 a',
+    strategy: 'html', selector: 'h2.entry_title a',
     active: true,
   },
   {
@@ -407,7 +407,7 @@ const sources: Source[] = [
     url: 'https://ogunstate.gov.ng',
     pressPath: '/news/',
     tier: 2, level: 'state', category: 'nigeria', zone: 'south_west',
-    strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a',
+    strategy: 'html', selector: 'h2.entry_title a',
     active: true,
   },
   {
@@ -416,22 +416,22 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 2, level: 'state', category: 'nigeria', zone: 'south_east',
     strategy: 'html', selector: 'article h2 a, .entry-title a, .post-title a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Delta State Government',
     url: 'https://deltastate.gov.ng',
-    pressPath: '/news/',
+    pressPath: '/category/news/',
     tier: 2, level: 'state', category: 'nigeria', zone: 'south_south',
-    strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a',
+    strategy: 'html', selector: 'h2.entry_title a',
     active: true,
   },
   {
     name: 'Edo State Government',
     url: 'https://edostate.gov.ng',
-    pressPath: '/news/',
+    pressPath: '/media/',
     tier: 2, level: 'state', category: 'nigeria', zone: 'south_south',
-    strategy: 'html', selector: 'article h2 a, .entry-title a, h3 a',
+    strategy: 'html', selector: 'h2.eael-entry-title a.eael-grid-post-link',
     active: true,
   },
   {
@@ -440,14 +440,14 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 2, level: 'state', category: 'nigeria', zone: 'south_east',
     strategy: 'html', selector: 'article h2 a, .entry-title a, .post-title a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Akwa Ibom State Government',
     url: 'https://akwaibomstate.gov.ng',
-    pressPath: '/news/',
+    pressPath: '/category/news/',
     tier: 2, level: 'state', category: 'nigeria', zone: 'south_south',
-    strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a',
+    strategy: 'html', selector: 'h2.entry_title a',
     active: true,
   },
   {
@@ -455,7 +455,7 @@ const sources: Source[] = [
     url: 'https://crossriverstate.gov.ng',
     pressPath: '/news/',
     tier: 2, level: 'state', category: 'nigeria', zone: 'south_south',
-    strategy: 'html', selector: 'article h2 a, .entry-title a, h3 a',
+    strategy: 'html', selector: 'h2.entry_title a',
     active: true,
   },
   {
@@ -464,7 +464,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 2, level: 'state', category: 'nigeria', zone: 'north_central',
     strategy: 'html', selector: 'article h2 a, .entry-title a, .post-title a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
 
   // NGOs
@@ -617,7 +617,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'south_east',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Adamawa State Government',
@@ -625,7 +625,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_east',
     strategy: 'html', selector: 'article h2 a, .entry-title a, .post-title a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Bauchi State Government',
@@ -633,7 +633,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_east',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h3 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Bayelsa State Government',
@@ -641,7 +641,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'south_south',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Benue State Government',
@@ -649,7 +649,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_central',
     strategy: 'html', selector: 'article h2 a, .entry-title a, .post-title a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Borno State Government',
@@ -657,7 +657,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_east',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h3 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Ebonyi State Government',
@@ -665,7 +665,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'south_east',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Ekiti State Government',
@@ -681,7 +681,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_east',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h3 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Imo State Government',
@@ -689,7 +689,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'south_east',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Jigawa State Government',
@@ -697,7 +697,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_west',
     strategy: 'html', selector: 'article h2 a, .entry-title a, .post-title a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Katsina State Government',
@@ -705,7 +705,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_west',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h3 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Kebbi State Government',
@@ -713,14 +713,14 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_west',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Kogi State Government',
     url: 'https://kogistate.gov.ng',
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_central',
-    strategy: 'html', selector: 'article h2 a, .entry-title a, .post-title a',
+    strategy: 'html', selector: 'h2.entry_title a',
     active: true,
   },
   {
@@ -729,7 +729,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_central',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h3 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Nasarawa State Government',
@@ -737,7 +737,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_central',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Niger State Government',
@@ -745,14 +745,14 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_central',
     strategy: 'html', selector: 'article h2 a, .entry-title a, .post-title a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Ondo State Government',
     url: 'https://ondostate.gov.ng',
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'south_west',
-    strategy: 'html', selector: 'article h2 a, .entry-title a, h3 a',
+    strategy: 'html', selector: 'h2.entry_title a',
     active: true,
   },
   {
@@ -761,7 +761,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'south_west',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Sokoto State Government',
@@ -769,7 +769,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_west',
     strategy: 'html', selector: 'article h2 a, .entry-title a, .post-title a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Taraba State Government',
@@ -777,7 +777,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_east',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h3 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Yobe State Government',
@@ -785,14 +785,14 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_east',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a',
-    active: true,
+    active: false, // site unreachable — re-check
   },
   {
     name: 'Zamfara State Government',
     url: 'https://zamfara.gov.ng',
     pressPath: '/news/',
     tier: 3, level: 'state', category: 'nigeria', zone: 'north_west',
-    strategy: 'html', selector: 'article h2 a, .entry-title a, .post-title a',
+    strategy: 'html', selector: 'h2.entry_title a',
     active: true,
   },
 
