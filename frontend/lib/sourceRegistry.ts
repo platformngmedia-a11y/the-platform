@@ -1,4 +1,4 @@
-export type Strategy = 'rss' | 'html'
+export type Strategy = 'rss' | 'html' | 'scraper-api'
 export type SourceLevel = 'federal' | 'state' | 'ngo' | 'international' | 'sport'
 export type Zone = 'south_west' | 'south_south' | 'south_east' | 'north_central' | 'north_west' | 'north_east'
 
@@ -14,7 +14,8 @@ export interface Source {
   strategy:    Strategy
   selector:    string
   active:      boolean
-  requiresJs?: boolean  // JS SPA — skip regular fetcher, use headless browser
+  requiresJs?: boolean   // JS SPA — skip regular fetcher, use headless browser
+  scraperApi?: boolean   // Cloudflare-protected — route through ScraperAPI proxy
 }
 
 const sources: Source[] = [
@@ -26,8 +27,8 @@ const sources: Source[] = [
     url: 'https://nannews.ng',
     pressPath: '/',
     tier: 1, level: 'federal', category: 'nigeria',
-    strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a, h3 a',
-    active: false, requiresJs: true, // Cloudflare blocks all access; needs direct API arrangement with NAN
+    strategy: 'scraper-api', selector: 'article h2 a, .entry-title a, h2 a, h3 a',
+    active: true, scraperApi: true,
   },
 
   // Federal — Presidency & Core
@@ -1506,6 +1507,10 @@ export function getSourcesByTier(tier: 1 | 2 | 3): Source[] {
 
 export function getJsSources(): Source[] {
   return sources.filter((s) => s.active && s.requiresJs)
+}
+
+export function getScraperApiSources(): Source[] {
+  return sources.filter((s) => s.active && s.scraperApi)
 }
 
 export function getStats() {
