@@ -24,9 +24,9 @@ const sources: Source[] = [
   {
     name: 'State House (Presidency)',
     url: 'https://statehouse.gov.ng',
-    pressPath: '/news/',
+    pressPath: '/category/press-releases/',
     tier: 1, level: 'federal', category: 'politics',
-    strategy: 'html', selector: 'article h2 a, .entry-title a, h2.title a',
+    strategy: 'html', selector: 'div.news-detail a',
     active: true,
   },
   {
