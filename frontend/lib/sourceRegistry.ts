@@ -1166,9 +1166,10 @@ const sources: Source[] = [
   {
     name: 'NEMSA',
     url: 'https://nemsa.gov.ng',
-    pressPath: '/news/',
+    pressPath: '/press-releases/',
+    feedUrl: 'https://nemsa.gov.ng/feed/',
     tier: 3, level: 'federal', category: 'economy',
-    strategy: 'html', selector: 'article h2 a, .entry-title a, h3 a',
+    strategy: 'rss', selector: '',
     active: true,
   },
   {
