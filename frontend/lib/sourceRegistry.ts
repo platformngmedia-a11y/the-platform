@@ -22,9 +22,17 @@ const sources: Source[] = [
 
   // Federal — Presidency & Core
   {
-    name: 'State House (Presidency)',
+    name: 'State House — Press Releases',
     url: 'https://statehouse.gov.ng',
     pressPath: '/category/press-releases/',
+    tier: 1, level: 'federal', category: 'politics',
+    strategy: 'html', selector: 'div.news-detail a',
+    active: true,
+  },
+  {
+    name: 'State House — News',
+    url: 'https://statehouse.gov.ng',
+    pressPath: '/category/news/',
     tier: 1, level: 'federal', category: 'politics',
     strategy: 'html', selector: 'div.news-detail a',
     active: true,
