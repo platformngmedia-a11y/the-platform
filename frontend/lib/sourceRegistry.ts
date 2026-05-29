@@ -27,7 +27,7 @@ const sources: Source[] = [
     pressPath: '/',
     tier: 1, level: 'federal', category: 'nigeria',
     strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a, h3 a',
-    active: true, requiresJs: true,
+    active: false, requiresJs: true, // Cloudflare blocks all access; needs direct API arrangement with NAN
   },
 
   // Federal — Presidency & Core
