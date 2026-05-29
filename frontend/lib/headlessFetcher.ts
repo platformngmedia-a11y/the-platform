@@ -6,20 +6,24 @@ function cleanText(text: string): string {
 }
 
 async function launchBrowser() {
-  // Use @sparticuz/chromium only in production (Lambda/Vercel environment).
-  // In development, use the system Playwright Chromium install.
-  if (process.env.NODE_ENV === 'production' || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+  const puppeteer = (await import('puppeteer-core')).default
+
+  if (process.env.NODE_ENV === 'production') {
     const chromium = (await import('@sparticuz/chromium')).default
-    const { chromium: playwright } = await import('playwright-core')
-    return playwright.launch({
+    const executablePath = await chromium.executablePath()
+    console.log('[HEADLESS] launching production browser, execPath:', executablePath)
+    return puppeteer.launch({
       args: chromium.args,
-      executablePath: await chromium.executablePath(),
+      executablePath,
       headless: true,
     })
   }
 
-  const { chromium } = await import('playwright-core')
-  return chromium.launch({ headless: true })
+  // Local dev — use system Chrome
+  const executablePath =
+    process.env.CHROME_PATH ??
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+  return puppeteer.launch({ executablePath, headless: true })
 }
 
 async function fetchWithBrowser(source: Source): Promise<RawLead[]> {
@@ -35,10 +39,9 @@ async function fetchWithBrowser(source: Source): Promise<RawLead[]> {
       'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     })
 
-    await page.goto(targetUrl, { waitUntil: 'networkidle', timeout: 30000 })
+    await page.goto(targetUrl, { waitUntil: 'networkidle2', timeout: 30000 })
 
-    // Wait briefly for any lazy-loaded content
-    await page.waitForTimeout(2000)
+    await new Promise((r) => setTimeout(r, 2000))
 
     const rawLinks = await page.evaluate((selector: string) => {
       const els = Array.from(document.querySelectorAll(selector))
@@ -46,7 +49,7 @@ async function fetchWithBrowser(source: Source): Promise<RawLead[]> {
         href: (el as HTMLAnchorElement).href ?? '',
         text: (el.textContent ?? '').replace(/\s+/g, ' ').trim(),
       }))
-    }, source.selector as string)
+    }, source.selector)
 
     const sourceDomain = new URL(source.url).hostname
 
@@ -71,8 +74,10 @@ async function fetchWithBrowser(source: Source): Promise<RawLead[]> {
         strategy:    'headless',
       })
     }
+
+    console.log(`[HEADLESS] ${source.name}: found ${leads.length} leads`)
   } catch (err: any) {
-    console.error(`[HEADLESS ERROR] ${source.name}: ${err.message}`)
+    console.error(`[HEADLESS ERROR] ${source.name}: ${err.message}\n${err.stack}`)
   } finally {
     if (browser) await browser.close().catch(() => {})
   }
