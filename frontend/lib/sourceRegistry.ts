@@ -20,6 +20,16 @@ export interface Source {
 const sources: Source[] = [
   // ── TIER 1: Most critical — checked every 2 hours ───────────────────────────
 
+  // News Wire
+  {
+    name: 'News Agency of Nigeria',
+    url: 'https://nannews.ng',
+    pressPath: '/news/',
+    tier: 1, level: 'federal', category: 'nigeria',
+    strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a',
+    active: true, requiresJs: true,
+  },
+
   // Federal — Presidency & Core
   {
     name: 'State House — Press Releases',
