@@ -24,9 +24,9 @@ const sources: Source[] = [
   {
     name: 'News Agency of Nigeria',
     url: 'https://nannews.ng',
-    pressPath: '/news/',
+    pressPath: '/',
     tier: 1, level: 'federal', category: 'nigeria',
-    strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a',
+    strategy: 'html', selector: 'article h2 a, .entry-title a, h2 a, h3 a',
     active: true, requiresJs: true,
   },
 
