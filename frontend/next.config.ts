@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
     ],
   },
   serverExternalPackages: ['puppeteer-core', '@sparticuz/chromium'],
+  outputFileTracingIncludes: {
+    '/api/cron/fetch-sports': ['./node_modules/@sparticuz/chromium/**/*'],
+  },
 }
 
 export default nextConfig
