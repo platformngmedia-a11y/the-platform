@@ -26,7 +26,7 @@ async function launchBrowser() {
   return puppeteer.launch({ executablePath, headless: true })
 }
 
-async function fetchWithBrowser(source: Source): Promise<RawLead[]> {
+async function fetchWithBrowser(source: Source): Promise<{ leads: RawLead[]; error?: string }> {
   const leads: RawLead[] = []
   const targetUrl = source.url + source.pressPath
   let browser = null
@@ -77,12 +77,14 @@ async function fetchWithBrowser(source: Source): Promise<RawLead[]> {
 
     console.log(`[HEADLESS] ${source.name}: found ${leads.length} leads`)
   } catch (err: any) {
-    console.error(`[HEADLESS ERROR] ${source.name}: ${err.message}\n${err.stack}`)
-  } finally {
+    const errMsg = `${err.message}\n${err.stack}`
+    console.error(`[HEADLESS ERROR] ${source.name}: ${errMsg}`)
     if (browser) await browser.close().catch(() => {})
+    return { leads: [], error: err.message }
   }
 
-  return leads
+  if (browser) await browser.close().catch(() => {})
+  return { leads }
 }
 
 export async function fetchJsSources(
@@ -95,10 +97,18 @@ export async function fetchJsSources(
   // Run in small batches — headless browsers are memory-heavy
   for (let i = 0; i < sources.length; i += concurrency) {
     const batch = sources.slice(i, i + concurrency)
-    const results = await Promise.allSettled(batch.map(fetchWithBrowser))
+    const results = await Promise.allSettled(
+      batch.map(async (source) => {
+        const result = await fetchWithBrowser(source)
+        return { leads: result.leads, error: result.error, name: source.name }
+      })
+    )
     for (const result of results) {
       if (result.status === 'fulfilled') {
-        leads.push(...result.value)
+        leads.push(...result.value.leads)
+        if (result.value.error) {
+          errors.push(`${result.value.name}: ${result.value.error}`)
+        }
       } else {
         errors.push(result.reason?.message ?? 'Unknown error')
       }
