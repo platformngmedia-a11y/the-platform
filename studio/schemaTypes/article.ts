@@ -92,6 +92,20 @@ export const article = defineType({
       ],
     }),
     defineField({
+      name: 'linkedFactChecks',
+      title: 'Related Fact-Checks',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'factCheck' }] }],
+      description: 'Link fact-checks that verify or address claims in this article',
+    }),
+    defineField({
+      name: 'editorNotes',
+      title: 'Editor Notes',
+      type: 'text',
+      rows: 4,
+      description: 'Internal notes about this article (not visible to readers)',
+    }),
+    defineField({
       name: 'body', type: 'array',
       of: [
         { type: 'block' },

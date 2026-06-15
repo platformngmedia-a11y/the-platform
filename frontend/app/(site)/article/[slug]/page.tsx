@@ -9,6 +9,9 @@ import { TagBadge } from '@/components/TagBadge'
 import { NewsletterStrip } from '@/components/NewsletterStrip'
 import { CommentsSection } from '@/components/CommentsSection'
 import { FactCheckCard } from '@/components/FactCheckCard'
+import { FactCheckLink } from '@/components/FactCheckLink'
+import { EditorNotes } from '@/components/EditorNotes'
+import { TrustMeter } from '@/components/TrustMeter'
 import { format } from 'date-fns'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -235,10 +238,24 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div className="bg-paper border border-line rounded-lg p-4 mt-6 text-xs text-muted leading-relaxed">
             <strong className="text-ink">Editorial standards:</strong> The Platform is committed to accuracy, fairness and independence. If you spot an error in this report, please <a href="/contact" className="text-navy underline">contact our corrections desk</a>.
           </div>
+          <EditorNotes article={article} />
           <DynamicCommentsSection articleId={article._id} />
         </article>
         <aside className="space-y-8">
           <div className="sticky top-24 space-y-8">
+            {/* Trust Meter */}
+            <TrustMeter article={article} variant="full" />
+
+            {article.linkedFactChecks && article.linkedFactChecks.length > 0 && (
+              <div>
+                <h3 className="text-base font-extrabold text-ink border-b-2 border-ink pb-2 mb-4">Related Fact-Checks</h3>
+                <div className="space-y-3">
+                  {article.linkedFactChecks.map((check: any) => (
+                    <FactCheckLink key={check._id} factCheck={check} variant="inline" />
+                  ))}
+                </div>
+              </div>
+            )}
             <div>
               <h3 className="text-base font-extrabold text-ink border-b-2 border-ink pb-2 mb-4">Related Stories</h3>
               <div className="space-y-5">

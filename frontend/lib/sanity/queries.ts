@@ -8,7 +8,8 @@ export const articleFields = groq`
   "categories": categories[]->{ title, slug },
   "mainImage": mainImage { asset->, alt },
   "sourcesUsed": sourcesUsed[] { name, url, type },
-  "correctionsApplied": correctionsApplied[] { date, description }
+  "correctionsApplied": correctionsApplied[] { date, description },
+  "linkedFactChecks": linkedFactChecks[]->{ _id, claim, slug, verdict, publishedAt, "checkedBy": checkedBy->{ name } }
 `
 
 export const featuredArticleQuery = groq`
