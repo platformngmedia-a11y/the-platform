@@ -1,4 +1,4 @@
-import { Mail, Facebook, Instagram, Twitter, MapPin, Phone } from 'lucide-react'
+import { Mail, Facebook, Instagram, X, MapPin, Phone } from 'lucide-react'
 
 export function SiteFooter({ categories }: { categories: any[] }) {
   const social = [

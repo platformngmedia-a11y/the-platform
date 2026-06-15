@@ -7,7 +7,7 @@ import { OptimizedImage } from '@/components/OptimizedImage'
 import { ArticleCard } from '@/components/ArticleCard'
 import { VerificationBadge } from '@/components/VerificationBadge'
 import { ExpertiseTags } from '@/components/ExpertiseTags'
-import { Mail, Twitter } from 'lucide-react'
+import { Mail, X } from 'lucide-react'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
