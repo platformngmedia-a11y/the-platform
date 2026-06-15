@@ -4,6 +4,7 @@ import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
 import { urlForImage } from '@/lib/sanity/image'
 import { ArticleCard } from '@/components/ArticleCard'
+import { OptimizedImage } from '@/components/OptimizedImage'
 import { TagBadge } from '@/components/TagBadge'
 import { NewsletterStrip } from '@/components/NewsletterStrip'
 import { CommentsSection } from '@/components/CommentsSection'
@@ -16,6 +17,12 @@ import { CopyLinkButton } from '@/components/CopyLinkButton'
 import { newsArticleSchema } from '@/lib/schema'
 import { AuthorBadge } from '@/components/AuthorBadge'
 import { DepthBadge } from '@/components/DepthBadge'
+import dynamic from 'next/dynamic'
+
+const DynamicCommentsSection = dynamic(() => import('@/components/CommentsSection').then(mod => ({ default: mod.CommentsSection })), {
+  loading: () => <div className="h-64 bg-paper rounded-lg animate-pulse" />,
+  ssr: false,
+})
 
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -38,7 +45,15 @@ const ptComponents = {
   types: {
     image: ({ value }: any) => (
       <figure className="my-8">
-        <Image src={urlForImage(value).width(800).url()} alt={value.alt || ''} width={800} height={500} className="w-full rounded-lg" />
+        <div className="rounded-lg overflow-hidden">
+          <OptimizedImage
+            src={value}
+            alt={value.alt || ''}
+            width={800}
+            height={500}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 800px"
+          />
+        </div>
         {value.caption && <figcaption className="text-center text-xs text-muted mt-2 italic">{value.caption}</figcaption>}
       </figure>
     ),
@@ -150,7 +165,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           {article.mainImage && (
             <div className="mb-8">
               <div className="relative aspect-video w-full overflow-hidden rounded-lg">
-                <Image src={urlForImage(article.mainImage).width(840).height(472).url()} alt={article.mainImage?.alt ?? article.title} fill className="object-cover" priority />
+                <OptimizedImage
+                  src={article.mainImage}
+                  alt={article.mainImage?.alt ?? article.title}
+                  width={840}
+                  height={472}
+                  priority
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 840px"
+                />
               </div>
               {article.mainImage?.alt && <p className="text-xs text-muted mt-2 text-center italic">{article.mainImage.alt}</p>}
             </div>
@@ -213,7 +235,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div className="bg-paper border border-line rounded-lg p-4 mt-6 text-xs text-muted leading-relaxed">
             <strong className="text-ink">Editorial standards:</strong> The Platform is committed to accuracy, fairness and independence. If you spot an error in this report, please <a href="/contact" className="text-navy underline">contact our corrections desk</a>.
           </div>
-          <CommentsSection articleId={article._id} />
+          <DynamicCommentsSection articleId={article._id} />
         </article>
         <aside className="space-y-8">
           <div className="sticky top-24 space-y-8">

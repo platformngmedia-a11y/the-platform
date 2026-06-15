@@ -4,6 +4,7 @@ import './globals.css'
 import { SiteHeader }     from '@/components/SiteHeader'
 import { SiteFooter }     from '@/components/SiteFooter'
 import { BreakingBanner } from '@/components/BreakingBanner'
+import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistration'
 import { client }         from '@/lib/sanity/client'
 import { VisualEditing }  from 'next-sanity/visual-editing'
 import { draftMode }      from 'next/headers'
@@ -27,6 +28,12 @@ export const metadata: Metadata = {
   description: `${siteName}: Nigeria's home of dependable, factual journalism that helps you make informed decisions.`,
   openGraph: { type: 'website', locale: 'en_NG', siteName },
   twitter:   { card: 'summary_large_image' },
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: siteName,
+  },
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -54,6 +61,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <SiteHeader categories={categories} />
         <main className="min-h-screen">{children}</main>
         <SiteFooter categories={categories} />
+        <ServiceWorkerRegistration />
         {isDraftMode && <VisualEditing />}
       </body>
     </html>

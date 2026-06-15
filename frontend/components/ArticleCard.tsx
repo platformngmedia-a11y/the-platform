@@ -1,8 +1,7 @@
-import Image from 'next/image'
-import { urlForImage } from '@/lib/sanity/image'
 import { formatDistanceToNow } from 'date-fns'
 import { Clock } from 'lucide-react'
 import { DepthBadge } from './DepthBadge'
+import { OptimizedImage } from './OptimizedImage'
 
 type Variant = 'hero' | 'top' | 'grid' | 'horizontal' | 'minimal' | 'editors'
 interface Props { article: any; variant?: Variant }
@@ -51,9 +50,6 @@ function Meta({ article }: { article: any }) {
 }
 
 export function ArticleCard({ article, variant = 'grid' }: Props) {
-  const imageUrl = article.mainImage
-    ? urlForImage(article.mainImage).width(900).height(560).url()
-    : null
   const cat  = article.categories?.[0]
   const href = `/article/${article.slug.current}`
 
@@ -61,12 +57,17 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
   if (variant === 'hero') {
     return (
       <article className="group">
-        {imageUrl && (
-          <a href={href} className="block w-full aspect-[16/7] overflow-hidden bg-paper relative mb-3">
-            <Image
-              src={imageUrl} alt={article.mainImage?.alt ?? article.title} fill
-              className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
-            />
+        {article.mainImage && (
+          <a href={href} className="block w-full aspect-[16/7] overflow-hidden bg-paper relative mb-3 group">
+            <div className="absolute inset-0 group-hover:scale-[1.02] transition-transform duration-500 origin-center">
+              <OptimizedImage
+                src={article.mainImage}
+                alt={article.mainImage?.alt ?? article.title}
+                width={1200}
+                height={525}
+                sizes="(max-width: 1024px) 100vw, 1200px"
+              />
+            </div>
           </a>
         )}
         <div className="flex items-center gap-2 mb-1.5 flex-wrap">
@@ -93,13 +94,17 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
   if (variant === 'top') {
     return (
       <article className="group flex gap-3 border-b border-border pb-4 last:border-0 last:pb-0">
-        {imageUrl && (
-          <a href={href} className="shrink-0 w-20 h-16 overflow-hidden bg-paper relative">
-            <Image
-              src={urlForImage(article.mainImage).width(160).height(128).url()}
-              alt={article.mainImage?.alt ?? article.title} fill
-              className="object-cover group-hover:scale-105 transition-transform duration-300"
-            />
+        {article.mainImage && (
+          <a href={href} className="shrink-0 w-20 h-16 overflow-hidden bg-paper relative group">
+            <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-300 origin-center">
+              <OptimizedImage
+                src={article.mainImage}
+                alt={article.mainImage?.alt ?? article.title}
+                width={160}
+                height={128}
+                sizes="160px"
+              />
+            </div>
           </a>
         )}
         <div className="flex-1 min-w-0">
@@ -119,13 +124,17 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
   if (variant === 'horizontal') {
     return (
       <article className="group flex gap-3 items-start">
-        {imageUrl && (
-          <a href={href} className="shrink-0 w-28 h-20 overflow-hidden bg-paper relative">
-            <Image
-              src={urlForImage(article.mainImage).width(224).height(160).url()}
-              alt={article.mainImage?.alt ?? article.title} fill
-              className="object-cover group-hover:scale-105 transition-transform duration-300"
-            />
+        {article.mainImage && (
+          <a href={href} className="shrink-0 w-28 h-20 overflow-hidden bg-paper relative group">
+            <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-300 origin-center">
+              <OptimizedImage
+                src={article.mainImage}
+                alt={article.mainImage?.alt ?? article.title}
+                width={224}
+                height={160}
+                sizes="224px"
+              />
+            </div>
           </a>
         )}
         <div>
@@ -179,12 +188,17 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
   /* default grid */
   return (
     <article className="group">
-      {imageUrl && (
-        <a href={href} className="block aspect-[16/10] overflow-hidden bg-paper mb-3 relative">
-          <Image
-            src={imageUrl} alt={article.mainImage?.alt ?? article.title} fill
-            className="object-cover group-hover:scale-[1.02] transition-transform duration-300"
-          />
+      {article.mainImage && (
+        <a href={href} className="block aspect-[16/10] overflow-hidden bg-paper mb-3 relative group">
+          <div className="absolute inset-0 group-hover:scale-[1.02] transition-transform duration-300 origin-center">
+            <OptimizedImage
+              src={article.mainImage}
+              alt={article.mainImage?.alt ?? article.title}
+              width={900}
+              height={560}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 900px"
+            />
+          </div>
         </a>
       )}
       <div className="flex items-center gap-2 mb-1.5 flex-wrap">
