@@ -1,11 +1,11 @@
-import { Rss, Globe, Link2, Mail } from 'lucide-react'
+import { Mail, Facebook, Instagram, Twitter } from 'lucide-react'
 
 export function SiteFooter({ categories }: { categories: any[] }) {
   const social = [
-    { Icon: Globe,  href: '#', label: 'Website' },
-    { Icon: Mail,   href: '#', label: 'Email' },
-    { Icon: Link2,  href: '#', label: 'Links' },
-    { Icon: Rss,    href: '#', label: 'RSS Feed' },
+    { Icon: Mail,       href: 'mailto:platformngmedia@gmail.com', label: 'Email',      title: 'platformngmedia@gmail.com' },
+    { Icon: Facebook,   href: 'https://www.facebook.com/profile.php?id=61589626771382', label: 'Facebook', title: '@thePlatformNG' },
+    { Icon: Instagram,  href: 'https://www.instagram.com/the_platform26/', label: 'Instagram', title: '@the_platform26' },
+    { Icon: Twitter,    href: 'https://x.com/The_platform01', label: 'Twitter/X', title: '@The_platform01' },
   ]
 
   return (
@@ -20,8 +20,8 @@ export function SiteFooter({ categories }: { categories: any[] }) {
               engage with the news and make informed decisions that shape their lives and communities.
             </p>
             <div className="flex gap-3 mt-6">
-              {social.map(({ Icon, href, label }, i) => (
-                <a key={i} href={href} aria-label={label} className="w-8 h-8 rounded-full border border-gray-700 flex items-center justify-center hover:border-gold hover:text-gold transition-colors">
+              {social.map(({ Icon, href, label, title }, i) => (
+                <a key={i} href={href} aria-label={label} title={title} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener noreferrer' : undefined} className="w-8 h-8 rounded-full border border-gray-700 flex items-center justify-center hover:border-gold hover:text-gold transition-colors">
                   <Icon size={14} />
                 </a>
               ))}
@@ -51,11 +51,11 @@ export function SiteFooter({ categories }: { categories: any[] }) {
               {[
                 { label: 'About Us', href: '/about' },
                 { label: 'Our Editorial Standards', href: '/about#standards' },
-                { label: 'Advertise with Us', href: '#' },
+                { label: 'Advertise with Us', href: '/advertise' },
                 { label: 'Contact the Newsroom', href: '/about#contact' },
-                { label: 'Privacy Policy', href: '#' },
-                { label: 'Terms of Service', href: '#' },
-                { label: 'Cookie Policy', href: '#' },
+                { label: 'Privacy Policy', href: '/privacy' },
+                { label: 'Terms of Service', href: '/terms' },
+                { label: 'Cookie Policy', href: '/cookies' },
               ].map(item => (
                 <li key={item.label}>
                   <a href={item.href} className="hover:text-gold transition-colors">{item.label}</a>
