@@ -13,6 +13,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Clock, AlertTriangle } from 'lucide-react'
 import { CopyLinkButton } from '@/components/CopyLinkButton'
+import { newsArticleSchema } from '@/lib/schema'
 
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -71,7 +72,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
   const articleUrl = `${siteUrl}/article/${article.slug.current}`
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(newsArticleSchema(article, siteUrl)),
+        }}
+      />
+      <div className="max-w-7xl mx-auto px-4 py-10">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         <article className="lg:col-span-2">
           <nav className="flex items-center gap-2 text-xs text-muted mb-4">
@@ -154,6 +162,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           {related.map((a: any) => <ArticleCard key={a._id} article={a} />)}
         </div>
       </section>
-    </div>
+      </div>
+    </>
   )
 }

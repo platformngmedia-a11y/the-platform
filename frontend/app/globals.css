@@ -8,10 +8,10 @@
   --color-gold: #c8a84b;
   --color-gold-light: #d4b866;
   --color-gold-dark: #a88c36;
-  --color-ink: #1c1c1e;
-  --color-muted: #6b7280;
-  --color-paper: #f7f6f2;
-  --color-border: #e5e3dc;
+  --color-ink: #111111;
+  --color-muted: #626262;
+  --color-paper: #f2f2f2;
+  --color-border: #e6e6e6;
 
   --font-family-sans:    var(--font-sans), 'Noto Sans', sans-serif;
   --font-family-serif:   var(--font-sans), 'Noto Sans', sans-serif;

@@ -8,6 +8,7 @@ import { client }         from '@/lib/sanity/client'
 import { VisualEditing }  from 'next-sanity/visual-editing'
 import { draftMode }      from 'next/headers'
 import { breakingNewsQuery, allCategoriesQuery } from '@/lib/sanity/queries'
+import { organizationSchema } from '@/lib/schema'
 
 const notoSans = Noto_Sans({
   subsets:  ['latin'],
@@ -36,8 +37,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     client.fetch(allCategoriesQuery, {}, { next: { revalidate: 3600 } }),
   ])
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://theplatformng.com'
+
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema(siteUrl)),
+          }}
+        />
+      </head>
       <body className={`${notoSans.variable} font-sans`}>
         {breakingNews.length > 0 && <BreakingBanner items={breakingNews} />}
         <SiteHeader categories={categories} />

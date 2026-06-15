@@ -48,9 +48,17 @@ export function SiteFooter({ categories }: { categories: any[] }) {
           <div>
             <h4 className="text-white font-bold text-sm mb-4 uppercase tracking-wider">Company</h4>
             <ul className="space-y-2.5 text-sm">
-              {['About Us','Our Editorial Standards','Advertise with Us','Contact the Newsroom','Privacy Policy','Terms of Service','Cookie Policy'].map(item => (
-                <li key={item}>
-                  <a href="#" className="hover:text-gold transition-colors">{item}</a>
+              {[
+                { label: 'About Us', href: '/about' },
+                { label: 'Our Editorial Standards', href: '/about#standards' },
+                { label: 'Advertise with Us', href: '#' },
+                { label: 'Contact the Newsroom', href: '/about#contact' },
+                { label: 'Privacy Policy', href: '#' },
+                { label: 'Terms of Service', href: '#' },
+                { label: 'Cookie Policy', href: '#' },
+              ].map(item => (
+                <li key={item.label}>
+                  <a href={item.href} className="hover:text-gold transition-colors">{item.label}</a>
                 </li>
               ))}
             </ul>

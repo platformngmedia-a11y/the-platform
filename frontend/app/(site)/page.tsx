@@ -18,6 +18,7 @@ export default async function HomePage() {
   const topStories = latest.filter((a: any) => a._id !== featured?._id).slice(0, 4)
   return (
     <div>
+      <h1 className="sr-only">The Platform — Dependable. True. Engaging.</h1>
       {/* Hero + Top Stories — BBC-style */}
       <section className="max-w-7xl mx-auto px-4 pt-6 pb-4">
         <div className="flex flex-col lg:flex-row gap-4 items-start">

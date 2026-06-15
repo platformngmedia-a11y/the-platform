@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { Search, Menu, X } from 'lucide-react'
+import { SearchModal } from './SearchModal'
 
 export function SiteHeader({ categories }: { categories: any[] }) {
   const pathname = usePathname()
@@ -75,17 +76,8 @@ export function SiteHeader({ categories }: { categories: any[] }) {
           </div>
         </div>
 
-        {/* Search input */}
-        {searchOpen && (
-          <div style={{ paddingBottom: '12px' }}>
-            <input
-              autoFocus
-              type="search"
-              placeholder="Search The Platform..."
-              style={{ width: '100%', padding: '10px 16px', fontSize: '14px', border: '1px solid #e5e3dc', borderRadius: '6px', backgroundColor: '#f7f6f2', outline: 'none', boxSizing: 'border-box' }}
-            />
-          </div>
-        )}
+        {/* Search modal */}
+        <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
 
         {/* Mobile menu dropdown - visible only on mobile */}
         {mobileOpen && (
