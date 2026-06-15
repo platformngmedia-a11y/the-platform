@@ -1,9 +1,10 @@
 'use client'
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Search, X } from 'lucide-react'
+import { Search, X, SliderHorizontal } from 'lucide-react'
 import { urlForImage } from '@/lib/sanity/image'
 import Image from 'next/image'
 import { formatDistanceToNow } from 'date-fns'
+import { calculateArticleTrustScore } from '@/lib/trust-scoring'
 
 interface SearchResult {
   _id: string
@@ -13,7 +14,10 @@ interface SearchResult {
   publishedAt: string
   mainImage?: any
   categories?: Array<{ title: string; slug: { current: string } }>
-  author?: { name: string }
+  author?: { name: string; slug?: { current: string } }
+  contentType?: string
+  wordCount?: number
+  sourcesUsed?: any[]
 }
 
 interface Props {
@@ -26,6 +30,10 @@ export function SearchModal({ isOpen, onClose }: Props) {
   const [results, setResults] = useState<SearchResult[]>([])
   const [loading, setLoading] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [showFilters, setShowFilters] = useState(false)
+  const [contentType, setContentType] = useState<string | null>(null)
+  const [trustLevel, setTrustLevel] = useState<string | null>(null)
+  const [dateRange, setDateRange] = useState<'week' | 'month' | 'year' | 'all'>('all')
   const inputRef = useRef<HTMLInputElement>(null)
   const resultsRef = useRef<HTMLDivElement>(null)
 
@@ -58,6 +66,45 @@ export function SearchModal({ isOpen, onClose }: Props) {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [isOpen, results, selectedIndex, onClose])
 
+  // Apply filters to results
+  const filteredResults = useCallback((allResults: SearchResult[]) => {
+    let filtered = [...allResults]
+
+    // Content type filter
+    if (contentType) {
+      filtered = filtered.filter(r => r.contentType === contentType)
+    }
+
+    // Trust level filter
+    if (trustLevel) {
+      filtered = filtered.filter(r => {
+        const trust = calculateArticleTrustScore(r as any)
+        if (trustLevel === 'excellent') return trust.level === 'Excellent'
+        if (trustLevel === 'good') return trust.level === 'Good'
+        if (trustLevel === 'fair') return trust.level === 'Fair'
+        return true
+      })
+    }
+
+    // Date range filter
+    if (dateRange !== 'all') {
+      const now = new Date()
+      const publishDate = new Date()
+
+      if (dateRange === 'week') {
+        publishDate.setDate(publishDate.getDate() - 7)
+      } else if (dateRange === 'month') {
+        publishDate.setMonth(publishDate.getMonth() - 1)
+      } else if (dateRange === 'year') {
+        publishDate.setFullYear(publishDate.getFullYear() - 1)
+      }
+
+      filtered = filtered.filter(r => new Date(r.publishedAt) >= publishDate)
+    }
+
+    return filtered
+  }, [contentType, trustLevel, dateRange])
+
   // Search
   const handleSearch = useCallback(async (q: string) => {
     setQuery(q)
@@ -72,14 +119,15 @@ export function SearchModal({ isOpen, onClose }: Props) {
     try {
       const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`)
       const data = await res.json()
-      setResults(data.results || [])
+      const allResults = data.results || []
+      setResults(filteredResults(allResults))
     } catch (err) {
       console.error('Search failed:', err)
       setResults([])
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [filteredResults])
 
   if (!isOpen) return null
 
@@ -88,23 +136,114 @@ export function SearchModal({ isOpen, onClose }: Props) {
       <div className="mx-auto max-w-2xl pt-16 px-4" onClick={e => e.stopPropagation()}>
         <div className="bg-white rounded-lg shadow-xl overflow-hidden">
           {/* Search input */}
-          <div className="flex items-center gap-3 border-b border-line p-4">
-            <Search size={20} className="text-muted flex-shrink-0" />
-            <input
-              ref={inputRef}
-              type="text"
-              value={query}
-              onChange={e => handleSearch(e.target.value)}
-              placeholder="Search articles, authors, topics..."
-              className="flex-1 outline-none text-sm"
-            />
-            <button
-              onClick={onClose}
-              className="p-1 hover:bg-paper rounded transition"
-              aria-label="Close"
-            >
-              <X size={18} className="text-muted" />
-            </button>
+          <div className="border-b border-line p-4 space-y-3">
+            <div className="flex items-center gap-3">
+              <Search size={20} className="text-muted flex-shrink-0" />
+              <input
+                ref={inputRef}
+                type="text"
+                value={query}
+                onChange={e => handleSearch(e.target.value)}
+                placeholder="Search articles, authors, topics..."
+                className="flex-1 outline-none text-sm"
+              />
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className={`p-1.5 rounded transition ${showFilters ? 'bg-navy text-white' : 'hover:bg-paper text-muted'}`}
+                aria-label="Toggle filters"
+                title="Advanced filters"
+              >
+                <SliderHorizontal size={18} />
+              </button>
+              <button
+                onClick={onClose}
+                className="p-1 hover:bg-paper rounded transition"
+                aria-label="Close"
+              >
+                <X size={18} className="text-muted" />
+              </button>
+            </div>
+
+            {/* Filters */}
+            {showFilters && (
+              <div className="bg-paper p-3 rounded-lg space-y-3 text-sm">
+                {/* Content Type */}
+                <div>
+                  <label className="block text-xs font-bold text-muted mb-1.5">Content Type</label>
+                  <div className="flex flex-wrap gap-1.5">
+                    {[
+                      { value: null, label: 'All' },
+                      { value: 'news', label: 'News' },
+                      { value: 'analysis', label: 'Analysis' },
+                      { value: 'investigation', label: 'Investigation' },
+                      { value: 'explainer', label: 'Explainer' },
+                    ].map(opt => (
+                      <button
+                        key={opt.value}
+                        onClick={() => setContentType(opt.value)}
+                        className={`px-2.5 py-1 rounded-full text-xs font-semibold transition ${
+                          contentType === opt.value
+                            ? 'bg-navy text-white'
+                            : 'bg-white border border-line text-ink hover:border-navy'
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Trust Level */}
+                <div>
+                  <label className="block text-xs font-bold text-muted mb-1.5">Trust Level</label>
+                  <div className="flex flex-wrap gap-1.5">
+                    {[
+                      { value: null, label: 'All' },
+                      { value: 'excellent', label: '⭐ Excellent' },
+                      { value: 'good', label: '✓ Good' },
+                      { value: 'fair', label: '📊 Fair' },
+                    ].map(opt => (
+                      <button
+                        key={opt.value}
+                        onClick={() => setTrustLevel(opt.value)}
+                        className={`px-2.5 py-1 rounded-full text-xs font-semibold transition ${
+                          trustLevel === opt.value
+                            ? 'bg-navy text-white'
+                            : 'bg-white border border-line text-ink hover:border-navy'
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Date Range */}
+                <div>
+                  <label className="block text-xs font-bold text-muted mb-1.5">Published</label>
+                  <div className="flex flex-wrap gap-1.5">
+                    {[
+                      { value: 'week', label: 'Last 7 Days' },
+                      { value: 'month', label: 'Last Month' },
+                      { value: 'year', label: 'Last Year' },
+                      { value: 'all', label: 'All Time' },
+                    ].map(opt => (
+                      <button
+                        key={opt.value}
+                        onClick={() => setDateRange(opt.value as any)}
+                        className={`px-2.5 py-1 rounded-full text-xs font-semibold transition ${
+                          dateRange === opt.value
+                            ? 'bg-navy text-white'
+                            : 'bg-white border border-line text-ink hover:border-navy'
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Results */}
