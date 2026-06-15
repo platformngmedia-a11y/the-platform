@@ -4,6 +4,8 @@ import './globals.css'
 import { SiteHeader }     from '@/components/SiteHeader'
 import { SiteFooter }     from '@/components/SiteFooter'
 import { BreakingBanner } from '@/components/BreakingBanner'
+import { MobileNavBar }   from '@/components/MobileNavBar'
+import { DarkModeProvider } from '@/components/DarkModeProvider'
 import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistration'
 import { client }         from '@/lib/sanity/client'
 import { VisualEditing }  from 'next-sanity/visual-editing'
@@ -47,7 +49,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://theplatformng.com'
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
@@ -55,14 +57,26 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             __html: JSON.stringify(organizationSchema(siteUrl)),
           }}
         />
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            try {
+              const pref = localStorage.getItem('theplatform_dark_mode') || 'system';
+              const isDark = pref === 'dark' || (pref === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+              if (isDark) document.documentElement.classList.add('dark');
+            } catch (e) {}
+          `,
+        }} />
       </head>
       <body className={`${notoSans.variable} font-sans`}>
-        {breakingNews.length > 0 && <BreakingBanner items={breakingNews} />}
-        <SiteHeader categories={categories} />
-        <main className="min-h-screen">{children}</main>
-        <SiteFooter categories={categories} />
-        <ServiceWorkerRegistration />
-        {isDraftMode && <VisualEditing />}
+        <DarkModeProvider>
+          {breakingNews.length > 0 && <BreakingBanner items={breakingNews} />}
+          <SiteHeader categories={categories} />
+          <main className="min-h-screen">{children}</main>
+          <SiteFooter categories={categories} />
+          <MobileNavBar />
+          <ServiceWorkerRegistration />
+          {isDraftMode && <VisualEditing />}
+        </DarkModeProvider>
       </body>
     </html>
   )

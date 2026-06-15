@@ -12,6 +12,7 @@
   --color-muted: #626262;
   --color-paper: #f2f2f2;
   --color-border: #e6e6e6;
+  --color-line: #e5e3dc;
 
   --font-family-sans:    var(--font-sans), 'Noto Sans', sans-serif;
   --font-family-serif:   var(--font-sans), 'Noto Sans', sans-serif;
@@ -21,6 +22,11 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 body {
@@ -28,7 +34,31 @@ body {
   background: white;
   -webkit-font-smoothing: antialiased;
   font-feature-settings: "kern" 1, "liga" 1;
+  transition: background-color 200ms, color 200ms;
 }
+
+html.dark body {
+  background: #0a0a0a;
+  color: #e5e5e5;
+}
+
+/* Dark mode text colors */
+html.dark {
+  --color-ink: #e5e5e5;
+  --color-muted: #a0a0a0;
+  --color-paper: #1a1a1a;
+  --color-border: #2d2d2d;
+  --color-line: #3a3935;
+}
+
+/* Dark mode component overrides */
+html.dark .border-line { @apply border-neutral-700; }
+html.dark .bg-paper { @apply bg-neutral-900; }
+html.dark .bg-white { @apply bg-neutral-950; }
+html.dark .text-muted { @apply text-neutral-500; }
+html.dark .text-ink { @apply text-neutral-100; }
+html.dark .hover\:bg-paper:hover { @apply hover:bg-neutral-900; }
+html.dark .border-border { @apply border-neutral-700; }
 
 ::selection {
   background: #1a3a5c;
