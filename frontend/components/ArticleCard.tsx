@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { urlForImage } from '@/lib/sanity/image'
 import { formatDistanceToNow } from 'date-fns'
 import { Clock } from 'lucide-react'
+import { DepthBadge } from './DepthBadge'
 
 type Variant = 'hero' | 'top' | 'grid' | 'horizontal' | 'minimal' | 'editors'
 interface Props { article: any; variant?: Variant }
@@ -68,11 +69,12 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
             />
           </a>
         )}
-        <div className="flex items-center gap-2 mb-1.5">
+        <div className="flex items-center gap-2 mb-1.5 flex-wrap">
           {article.isBreaking && (
             <span className="text-[10px] font-bold uppercase tracking-wider text-red-700 bg-red-50 px-2 py-0.5 rounded">Breaking</span>
           )}
           {cat && <CategoryPill cat={cat} />}
+          {article.wordCount && <DepthBadge article={article} />}
         </div>
         <a href={href}>
           <h1 className="text-xl font-extrabold text-ink leading-[1.2] group-hover:text-[#1d70b8] transition-colors mb-1.5">
@@ -185,9 +187,12 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
           />
         </a>
       )}
-      {cat && <CategoryPill cat={cat} />}
+      <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+        {cat && <CategoryPill cat={cat} />}
+        {article.wordCount && <DepthBadge article={article} />}
+      </div>
       <a href={href}>
-        <h2 className="font-bold text-ink group-hover:text-[#1d70b8] transition-colors line-clamp-2 mt-1.5 leading-[1.3] text-[15px]">
+        <h2 className="font-bold text-ink group-hover:text-[#1d70b8] transition-colors line-clamp-2 leading-[1.3] text-[15px]">
           {article.title}
         </h2>
       </a>

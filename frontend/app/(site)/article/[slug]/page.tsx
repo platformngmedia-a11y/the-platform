@@ -14,6 +14,8 @@ import { notFound } from 'next/navigation'
 import { Clock, AlertTriangle } from 'lucide-react'
 import { CopyLinkButton } from '@/components/CopyLinkButton'
 import { newsArticleSchema } from '@/lib/schema'
+import { AuthorBadge } from '@/components/AuthorBadge'
+import { DepthBadge } from '@/components/DepthBadge'
 
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -102,12 +104,39 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <h1 className="text-[1.75rem] md:text-[2.2rem] font-bold text-ink leading-[1.2] tracking-[-0.01em] mb-3 hover:text-[#1d70b8] transition-colors duration-200 cursor-default">{article.title}</h1>
           {article.excerpt && <p className="text-[1.1rem] text-ink leading-[1.55] mb-6 font-normal border-l-4 border-navy pl-4">{article.excerpt}</p>}
           <div className="flex flex-wrap items-center justify-between gap-4 py-4 border-y border-line mb-6">
-            <div>
-              {article.author?.name && <p className="text-sm font-bold text-ink">By {article.author.name}</p>}
+            <div className="flex-1">
+              {article.author?.name && (
+                <div className="flex items-center gap-2 mb-1">
+                  <p className="text-sm font-bold text-ink">By {article.author.name}</p>
+                  {article.author && <AuthorBadge author={article.author} />}
+                </div>
+              )}
+              {article.author?.expertise && article.author.expertise.length > 0 && (
+                <p className="text-xs text-muted mb-1">
+                  Expertise: {article.author.expertise.join(', ')}
+                </p>
+              )}
               {article.author?.role && <p className="text-xs text-muted">{article.author.role}</p>}
-              <div className="flex items-center gap-3 text-xs text-muted mt-0.5">
+              <div className="flex items-center gap-3 text-xs text-muted mt-0.5 flex-wrap">
                 {article.publishedAt && <time dateTime={article.publishedAt}>{format(new Date(article.publishedAt), "d MMMM yyyy, h:mm a")}</time>}
-                {article.readingTime && <span className="flex items-center gap-1"><Clock size={11} />{article.readingTime} min read</span>}
+                {article.updatedAt && article.updatedAt !== article.publishedAt && (
+                  <>
+                    <span className="text-border">·</span>
+                    <span>Updated {format(new Date(article.updatedAt), "d MMMM yyyy, h:mm a")}</span>
+                  </>
+                )}
+                {article.readingTime && (
+                  <>
+                    <span className="text-border">·</span>
+                    <span className="flex items-center gap-1"><Clock size={11} />{article.readingTime} min read</span>
+                  </>
+                )}
+                {article.wordCount && (
+                  <>
+                    <span className="text-border">·</span>
+                    <span>{article.wordCount} words</span>
+                  </>
+                )}
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -129,6 +158,49 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div className="article-body font-prose">
             <PortableText value={article.body} components={ptComponents} />
           </div>
+          {article.wordCount && (
+            <div className="mt-8 pt-6 border-t border-line">
+              <div className="flex items-center gap-3">
+                <h3 className="text-sm font-bold text-ink">Content Depth:</h3>
+                <DepthBadge article={article} />
+              </div>
+            </div>
+          )}
+          {article.sourcesUsed?.length > 0 && (
+            <div className="mt-8 pt-6 border-t border-line">
+              <h3 className="text-sm font-bold text-ink mb-3">Sources & References</h3>
+              <ul className="space-y-2.5 text-xs">
+                {article.sourcesUsed.map((source: any, i: number) => (
+                  <li key={i} className="flex gap-2">
+                    <span className="shrink-0 text-muted">•</span>
+                    <span>
+                      {source.url ? (
+                        <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-navy underline hover:text-navy-dark">
+                          {source.name}
+                        </a>
+                      ) : (
+                        source.name
+                      )}
+                      {source.type && <span className="text-muted"> ({source.type})</span>}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {article.correctionsApplied?.length > 0 && (
+            <div className="mt-8 pt-6 border-t border-line">
+              <h3 className="text-sm font-bold text-ink mb-3">Corrections & Updates</h3>
+              <ul className="space-y-3 text-xs">
+                {article.correctionsApplied.map((correction: any, i: number) => (
+                  <li key={i} className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+                    <p className="text-amber-900 font-medium mb-1">{format(new Date(correction.date), 'd MMMM yyyy, h:mm a')}</p>
+                    <p className="text-amber-800">{correction.description}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           {article.tags?.length > 0 && (
             <div className="mt-8 pt-6 border-t border-line">
               <p className="text-[10px] font-black uppercase tracking-widest text-muted mb-3">Topics</p>

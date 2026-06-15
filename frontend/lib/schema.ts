@@ -1,5 +1,11 @@
 export function newsArticleSchema(article: any, siteUrl: string) {
   const imageUrl = article.mainImage?.asset?.url
+  const sources = article.sourcesUsed?.map((s: any) => ({
+    '@type': 'WebSite',
+    name: s.name,
+    url: s.url,
+  })) || []
+
   return {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
@@ -8,10 +14,19 @@ export function newsArticleSchema(article: any, siteUrl: string) {
     image: imageUrl ? [imageUrl] : [],
     datePublished: article.publishedAt,
     dateModified: article.updatedAt || article.publishedAt,
+    wordCount: article.wordCount,
+    articleBody: article.body?.map((b: any) => b.children?.map((c: any) => c.text).join(' ')).join('\n') || '',
     author: article.author
       ? {
           '@type': 'Person',
           name: article.author.name,
+          ...(article.author.credibilityBadge && { credential: mapCredibilityBadge(article.author.credibilityBadge) }),
+        }
+      : undefined,
+    editor: article.reviewedBy
+      ? {
+          '@type': 'Person',
+          name: article.reviewedBy.name,
         }
       : undefined,
     publisher: {
@@ -22,6 +37,7 @@ export function newsArticleSchema(article: any, siteUrl: string) {
         url: `${siteUrl}/logo.png`,
       },
     },
+    sourceOrganization: sources.length > 0 ? sources : undefined,
     mainEntity: {
       '@type': 'NewsArticle',
       headline: article.title,
@@ -36,6 +52,16 @@ export function newsArticleSchema(article: any, siteUrl: string) {
         : undefined,
     },
   }
+}
+
+function mapCredibilityBadge(badge: string): string {
+  const mapping: Record<string, string> = {
+    verified: 'Verified Journalist',
+    senior: 'Senior Editor',
+    contributor: 'Verified Contributor',
+    staff: 'Staff Writer',
+  }
+  return mapping[badge] || 'Journalist'
 }
 
 export function organizationSchema(siteUrl: string) {

@@ -18,10 +18,79 @@ export const article = defineType({
     defineField({ name: 'tags', type: 'array', of: [{ type: 'string' }], options: { layout: 'tags' } }),
     defineField({ name: 'author', type: 'reference', to: [{ type: 'author' }] }),
     defineField({ name: 'publishedAt', type: 'datetime', validation: R => R.required() }),
+    defineField({ name: 'updatedAt',   type: 'datetime', title: 'Last updated' }),
     defineField({ name: 'isBreaking',    title: 'Breaking news?',         type: 'boolean', initialValue: false }),
     defineField({ name: 'isFeatured',    title: 'Featured (lead story)?', type: 'boolean', initialValue: false }),
     defineField({ name: 'isEditorsPick', title: "Editor's pick?",          type: 'boolean', initialValue: false }),
     defineField({ name: 'readingTime',   title: 'Reading time (minutes)',  type: 'number' }),
+    defineField({
+      name: 'contentType',
+      title: 'Content Type',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'News', value: 'news' },
+          { title: 'Analysis', value: 'analysis' },
+          { title: 'Investigation', value: 'investigation' },
+          { title: 'Explainer', value: 'explainer' },
+        ],
+      },
+    }),
+    defineField({
+      name: 'sourcesUsed',
+      title: 'Sources & References',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({ name: 'name', type: 'string', title: 'Source Name' }),
+            defineField({ name: 'url', type: 'url', title: 'Source URL' }),
+            defineField({
+              name: 'type',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Official Statement', value: 'official' },
+                  { title: 'News Report', value: 'news' },
+                  { title: 'Government Data', value: 'government' },
+                  { title: 'Academic Research', value: 'research' },
+                  { title: 'Interview', value: 'interview' },
+                  { title: 'Other', value: 'other' },
+                ],
+              },
+            }),
+          ],
+        },
+      ],
+    }),
+    defineField({
+      name: 'wordCount',
+      title: 'Word Count',
+      type: 'number',
+      description: 'Auto-calculate or manually set article length',
+    }),
+    defineField({
+      name: 'reviewedBy',
+      title: 'Reviewed / Edited by',
+      type: 'reference',
+      to: [{ type: 'author' }],
+      description: 'Editor or senior journalist who reviewed this article',
+    }),
+    defineField({
+      name: 'correctionsApplied',
+      title: 'Corrections Applied',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({ name: 'date', type: 'datetime', title: 'Correction Date' }),
+            defineField({ name: 'description', type: 'text', title: 'What was corrected' }),
+          ],
+        },
+      ],
+    }),
     defineField({
       name: 'body', type: 'array',
       of: [

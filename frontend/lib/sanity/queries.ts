@@ -1,11 +1,14 @@
 import { groq } from 'next-sanity'
 
 export const articleFields = groq`
-  _id, title, slug, excerpt, publishedAt, readingTime,
+  _id, title, slug, excerpt, publishedAt, updatedAt, readingTime, wordCount, contentType,
   isBreaking, isFeatured, isEditorsPick, tags,
-  "author": author->{ name, slug, image, role },
+  "author": author->{ name, slug, image, role, credibilityBadge, articlesPublished, isVerifiedJournalist, expertise },
+  "reviewedBy": reviewedBy->{ name, role },
   "categories": categories[]->{ title, slug },
-  "mainImage": mainImage { asset->, alt }
+  "mainImage": mainImage { asset->, alt },
+  "sourcesUsed": sourcesUsed[] { name, url, type },
+  "correctionsApplied": correctionsApplied[] { date, description }
 `
 
 export const featuredArticleQuery = groq`
