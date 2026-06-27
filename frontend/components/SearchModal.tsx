@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Search, X, SliderHorizontal } from 'lucide-react'
+import { Search, X, SlidersHorizontal } from 'lucide-react'
 import { urlForImage } from '@/lib/sanity/image'
 import Image from 'next/image'
 import { formatDistanceToNow } from 'date-fns'
@@ -153,7 +153,7 @@ export function SearchModal({ isOpen, onClose }: Props) {
                 aria-label="Toggle filters"
                 title="Advanced filters"
               >
-                <SliderHorizontal size={18} />
+                <SlidersHorizontal size={18} />
               </button>
               <button
                 onClick={onClose}
