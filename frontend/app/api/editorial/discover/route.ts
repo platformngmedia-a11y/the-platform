@@ -4,6 +4,8 @@ export const maxDuration = 300
 
 const ALLOWED_ORIGINS = [
   'https://platformngmedia-studio.sanity.studio',
+  'https://www.sanity.io',
+  'https://sanity.io',
   'http://localhost:3333',
 ]
 
