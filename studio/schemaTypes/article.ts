@@ -106,6 +106,13 @@ export const article = defineType({
       description: 'Internal notes about this article (not visible to readers)',
     }),
     defineField({
+      name: 'suggestedImagePrompt',
+      title: 'Suggested AI Image Prompt',
+      type: 'text',
+      rows: 5,
+      description: 'Paste into an AI image generator to create the hero image (internal, not visible to readers)',
+    }),
+    defineField({
       name: 'body', type: 'array',
       of: [
         { type: 'block' },

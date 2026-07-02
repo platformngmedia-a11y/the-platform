@@ -4,6 +4,7 @@ import { visionTool }              from '@sanity/vision'
 import { presentationTool }        from 'sanity/presentation'
 import { schemaTypes }             from './schemaTypes'
 import { GenerateArticleAction }   from './actions/GenerateArticleAction'
+import { AnalysisDesk }            from './tools/AnalysisDesk'
 
 const FRONTEND_URL = process.env.SANITY_STUDIO_PREVIEW_URL ?? 'http://localhost:3000'
 
@@ -116,6 +117,13 @@ export default defineConfig({
         },
       },
     }),
+  ],
+  tools: [
+    {
+      name: 'analysis-desk',
+      title: 'Analysis Desk',
+      component: AnalysisDesk,
+    },
   ],
   schema: { types: schemaTypes },
   document: {
