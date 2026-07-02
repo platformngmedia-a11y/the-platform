@@ -111,7 +111,8 @@ export function SiteFooter({ categories }: { categories: any[] }) {
                 { label: 'Politics',           href: '/category/politics' },
                 { label: 'Economy',            href: '/category/economy' },
                 { label: 'World',              href: '/category/world' },
-                { label: 'Opinion & Analysis', href: '/opinion' },
+                { label: 'Opinion',            href: '/opinion' },
+                { label: 'News Analysis',      href: '/analysis' },
                 { label: 'Fact Check',         href: '/fact-check' },
                 { label: 'Sport',              href: '/category/sport' },
               ].map(link => (

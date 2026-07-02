@@ -56,6 +56,11 @@ export const allFactChecksQuery = groq`
   }
 `
 
+export const analysisArticlesQuery = groq`
+  *[_type == "article" && contentType == "analysis"]
+  | order(publishedAt desc)[0...12] { ${articleFields} }
+`
+
 export const featuredOpinionsQuery = groq`
   *[_type == "opinion"] | order(publishedAt desc)[0...6] {
     _id, title, slug, excerpt, publishedAt,

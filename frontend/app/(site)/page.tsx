@@ -1,5 +1,5 @@
 import { client } from '@/lib/sanity/client'
-import { featuredArticleQuery, latestArticlesQuery, featuredFactCheckQuery, featuredOpinionsQuery, editorsPicksQuery } from '@/lib/sanity/queries'
+import { featuredArticleQuery, latestArticlesQuery, featuredFactCheckQuery, featuredOpinionsQuery, editorsPicksQuery, analysisArticlesQuery } from '@/lib/sanity/queries'
 import { ArticleCard } from '@/components/ArticleCard'
 import { FactCheckCard } from '@/components/FactCheckCard'
 import { OpinionCard } from '@/components/OpinionCard'
@@ -9,11 +9,12 @@ export const revalidate = 60
 
 export default async function HomePage() {
   const featured = await client.fetch<any>(featuredArticleQuery)
-  const [latest, factCheck, opinions, editorsPicks] = await Promise.all([
+  const [latest, factCheck, opinions, editorsPicks, analysis] = await Promise.all([
     client.fetch<any[]>(latestArticlesQuery),
     client.fetch<any>(featuredFactCheckQuery),
     client.fetch<any[]>(featuredOpinionsQuery),
     client.fetch<any[]>(editorsPicksQuery),
+    client.fetch<any[]>(analysisArticlesQuery),
   ])
   const topStories = latest.filter((a: any) => a._id !== featured?._id).slice(0, 4)
   return (
@@ -48,6 +49,17 @@ export default async function HomePage() {
                 {latest.slice(5, 14).map((a: any) => <ArticleCard key={a._id} article={a} />)}
               </div>
             </div>
+            {analysis.length > 0 && (
+              <div>
+                <div className="flex items-center justify-between border-b-2 border-navy pb-2 mb-6">
+                  <h2 className="text-lg font-extrabold text-ink">News Analysis</h2>
+                  <a href="/analysis" className="text-xs text-navy font-semibold hover:underline">View all analysis →</a>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {analysis.slice(0, 3).map((a: any) => <ArticleCard key={a._id} article={a} />)}
+                </div>
+              </div>
+            )}
             {factCheck && (
               <div>
                 <h2 className="text-base font-extrabold text-ink border-b-2 border-ink pb-2 mb-4">Fact Check</h2>

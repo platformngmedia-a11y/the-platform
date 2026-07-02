@@ -16,6 +16,7 @@ export function SiteHeader({ categories }: { categories: any[] }) {
     { label: 'Economy',    href: '/category/economy' },
     { label: 'World',      href: '/category/world' },
     { label: 'Opinion',    href: '/opinion' },
+    { label: 'Analysis',   href: '/analysis' },
     { label: 'Fact Check', href: '/fact-check' },
     { label: 'Sport',      href: '/category/sport' },
     { label: 'Technology', href: '/category/technology' },

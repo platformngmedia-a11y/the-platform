@@ -20,13 +20,6 @@ import { CopyLinkButton } from '@/components/CopyLinkButton'
 import { newsArticleSchema } from '@/lib/schema'
 import { AuthorBadge } from '@/components/AuthorBadge'
 import { DepthBadge } from '@/components/DepthBadge'
-import dynamic from 'next/dynamic'
-
-const DynamicCommentsSection = dynamic(() => import('@/components/CommentsSection').then(mod => ({ default: mod.CommentsSection })), {
-  loading: () => <div className="h-64 bg-paper rounded-lg animate-pulse" />,
-  ssr: false,
-})
-
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
@@ -113,6 +106,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             )}
             <span className="text-ink truncate max-w-xs">{article.title}</span>
           </nav>
+          {article.contentType === 'analysis' && (
+            <div className="mb-4">
+              <span className="inline-block bg-navy text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded">
+                News Analysis
+              </span>
+            </div>
+          )}
           {article.isBreaking && (
             <div className="flex items-center gap-2 text-red-700 bg-red-50 border border-red-100 rounded-lg px-3 py-2.5 mb-4 text-sm font-semibold">
               <AlertTriangle size={16} />
@@ -191,7 +191,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </div>
             </div>
           )}
-          {article.sourcesUsed?.length > 0 && (
+          {article.contentType === 'analysis' && (
+            <div className="mt-8 pt-6 border-t border-line">
+              <p className="text-xs text-muted italic">
+                This analysis is based on reporting from multiple online sources, official statements and publicly available data, reviewed by The Platform editorial team.
+              </p>
+            </div>
+          )}
+          {article.contentType !== 'analysis' && article.sourcesUsed?.length > 0 && (
             <div className="mt-8 pt-6 border-t border-line">
               <h3 className="text-sm font-bold text-ink mb-3">Sources & References</h3>
               <ul className="space-y-2.5 text-xs">
@@ -239,7 +246,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <strong className="text-ink">Editorial standards:</strong> The Platform is committed to accuracy, fairness and independence. If you spot an error in this report, please <a href="/contact" className="text-navy underline">contact our corrections desk</a>.
           </div>
           <EditorNotes article={article} />
-          <DynamicCommentsSection articleId={article._id} />
+          <CommentsSection articleId={article._id} />
         </article>
         <aside className="space-y-8">
           <div className="sticky top-24 space-y-8">
