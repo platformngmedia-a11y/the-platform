@@ -20,6 +20,8 @@ export const newsLead = defineType({
           { title: 'State', value: 'state' },
           { title: 'NGO / Civil Society', value: 'ngo' },
           { title: 'International', value: 'international' },
+          { title: 'National Press', value: 'press' },
+          { title: 'Sport', value: 'sport' },
         ],
       },
     }),

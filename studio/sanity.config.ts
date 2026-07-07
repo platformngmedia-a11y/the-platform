@@ -68,6 +68,14 @@ export default defineConfig({
                   .defaultOrdering([{ field: 'fetchedAt', direction: 'desc' }])
               ),
             S.listItem()
+              .title('National Press Leads')
+              .child(
+                S.documentList()
+                  .title('National Press')
+                  .filter('_type == "newsLead" && sourceLevel == "press" && status == "new"')
+                  .defaultOrdering([{ field: 'fetchedAt', direction: 'desc' }])
+              ),
+            S.listItem()
               .title('In Progress')
               .child(
                 S.documentList()

@@ -1,5 +1,5 @@
 export type Strategy = 'rss' | 'html' | 'scraper-api'
-export type SourceLevel = 'federal' | 'state' | 'ngo' | 'international' | 'sport'
+export type SourceLevel = 'federal' | 'state' | 'ngo' | 'international' | 'sport' | 'press'
 export type Zone = 'south_west' | 'south_south' | 'south_east' | 'north_central' | 'north_west' | 'north_east'
 
 export interface Source {
@@ -1332,6 +1332,109 @@ const sources: Source[] = [
     active: true,
   },
 
+  // ── NATIONAL PRESS — Nigerian news outlets (leads for rewriting, Tier 1/2) ──
+  {
+    name: 'Punch Nigeria',
+    url: 'https://punchng.com',
+    pressPath: '',
+    feedUrl: 'https://punchng.com/feed/',
+    tier: 1, level: 'press', category: 'nigeria',
+    strategy: 'rss', selector: '',
+    active: true,
+  },
+  {
+    name: 'Vanguard Nigeria',
+    url: 'https://www.vanguardngr.com',
+    pressPath: '',
+    feedUrl: 'https://www.vanguardngr.com/feed/',
+    tier: 1, level: 'press', category: 'nigeria',
+    strategy: 'rss', selector: '',
+    active: true,
+  },
+  {
+    name: 'Premium Times',
+    url: 'https://www.premiumtimesng.com',
+    pressPath: '',
+    feedUrl: 'https://www.premiumtimesng.com/feed',
+    tier: 1, level: 'press', category: 'nigeria',
+    strategy: 'rss', selector: '',
+    active: true,
+  },
+  {
+    name: 'Channels TV',
+    url: 'https://www.channelstv.com',
+    pressPath: '',
+    feedUrl: 'https://www.channelstv.com/feed/',
+    tier: 1, level: 'press', category: 'nigeria',
+    strategy: 'rss', selector: '',
+    active: true,
+  },
+  {
+    name: 'The Guardian Nigeria',
+    url: 'https://guardian.ng',
+    pressPath: '',
+    feedUrl: 'https://guardian.ng/feed/',
+    tier: 2, level: 'press', category: 'nigeria',
+    strategy: 'rss', selector: '',
+    active: true,
+  },
+  {
+    name: 'Daily Trust',
+    url: 'https://dailytrust.com',
+    pressPath: '',
+    feedUrl: 'https://dailytrust.com/feed/',
+    tier: 2, level: 'press', category: 'nigeria',
+    strategy: 'rss', selector: '',
+    active: true,
+  },
+  {
+    name: 'The Cable',
+    url: 'https://www.thecable.ng',
+    pressPath: '',
+    feedUrl: 'https://www.thecable.ng/feed',
+    tier: 2, level: 'press', category: 'nigeria',
+    strategy: 'rss', selector: '',
+    active: true,
+  },
+
+  // ── INTERNATIONAL PRESS — world news outlets (Tier 2/3) ─────────────────────
+  {
+    name: 'BBC Africa',
+    url: 'https://www.bbc.com',
+    pressPath: '',
+    feedUrl: 'https://feeds.bbci.co.uk/news/world/africa/rss.xml',
+    tier: 2, level: 'international', category: 'world',
+    strategy: 'rss', selector: '',
+    active: true,
+  },
+  {
+    name: 'Al Jazeera',
+    url: 'https://www.aljazeera.com',
+    pressPath: '',
+    feedUrl: 'https://www.aljazeera.com/xml/rss/all.xml',
+    tier: 2, level: 'international', category: 'world',
+    strategy: 'rss', selector: '',
+    active: true,
+  },
+  {
+    name: 'France 24 Africa',
+    url: 'https://www.france24.com',
+    pressPath: '',
+    feedUrl: 'https://www.france24.com/en/africa/rss',
+    tier: 3, level: 'international', category: 'world',
+    strategy: 'rss', selector: '',
+    active: true,
+  },
+  {
+    name: 'The Guardian (UK) — Africa',
+    url: 'https://www.theguardian.com',
+    pressPath: '',
+    feedUrl: 'https://www.theguardian.com/world/africa/rss',
+    tier: 3, level: 'international', category: 'world',
+    strategy: 'rss', selector: '',
+    active: true,
+  },
+
   // ── SPORT — Governing Bodies (Tier 2) ────────────────────────────────────────
   {
     name: 'FIFA',
@@ -1347,7 +1450,7 @@ const sources: Source[] = [
     pressPath: '/insideuefa/mediaservices/',
     tier: 2, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/"]',
-    active: true, requiresJs: true,
+    active: false,  // deactivated — low-quality leads requiresJs: true,
   },
   {
     name: 'CAF — Confederation of African Football',
@@ -1363,7 +1466,7 @@ const sources: Source[] = [
     pressPath: '/ioc/news',
     tier: 2, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/ioc/news/"]',
-    active: true, requiresJs: true,
+    active: false,  // deactivated — low-quality leads requiresJs: true,
   },
   {
     name: 'World Athletics',
@@ -1389,7 +1492,7 @@ const sources: Source[] = [
     pressPath: '/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a.responsive-card__wrapper',
-    active: true,
+    active: false,  // deactivated — low-quality leads
   },
   {
     name: 'Liverpool FC',
@@ -1397,7 +1500,7 @@ const sources: Source[] = [
     pressPath: '/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href^="/news/"]',
-    active: true,
+    active: false,  // deactivated — low-quality leads
   },
   {
     name: 'Manchester United',
@@ -1405,7 +1508,7 @@ const sources: Source[] = [
     pressPath: '/en/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href^="/en/news/"]:not([href*="/listing/"])',
-    active: true,
+    active: false,  // deactivated — low-quality leads
   },
   {
     name: 'Chelsea FC',
@@ -1413,7 +1516,7 @@ const sources: Source[] = [
     pressPath: '/en/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/article"]',
-    active: true, requiresJs: true,
+    active: false,  // deactivated — low-quality leads requiresJs: true,
   },
   {
     name: 'Manchester City',
@@ -1421,7 +1524,7 @@ const sources: Source[] = [
     pressPath: '/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/"]',
-    active: true, requiresJs: true,
+    active: false,  // deactivated — low-quality leads requiresJs: true,
   },
   {
     name: 'Tottenham Hotspur',
@@ -1429,7 +1532,7 @@ const sources: Source[] = [
     pressPath: '/news/',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/"]',
-    active: true, requiresJs: true,
+    active: false,  // deactivated — low-quality leads requiresJs: true,
   },
 
   // ── SPORT — La Liga Clubs (Tier 3) ───────────────────────────────────────────
@@ -1439,7 +1542,7 @@ const sources: Source[] = [
     pressPath: '/en/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href^="/en/news/"]',
-    active: true,
+    active: false,  // deactivated — low-quality leads
   },
   {
     name: 'Real Madrid CF',
@@ -1447,7 +1550,7 @@ const sources: Source[] = [
     pressPath: '/en/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/"]',
-    active: true, requiresJs: true,
+    active: false,  // deactivated — low-quality leads requiresJs: true,
   },
 
   // ── SPORT — Bundesliga (Tier 3) ──────────────────────────────────────────────
@@ -1457,7 +1560,7 @@ const sources: Source[] = [
     pressPath: '/en/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/en/news/"]',
-    active: true, requiresJs: true,
+    active: false,  // deactivated — low-quality leads requiresJs: true,
   },
 
   // ── SPORT — Serie A (Tier 3) ─────────────────────────────────────────────────
@@ -1467,7 +1570,7 @@ const sources: Source[] = [
     pressPath: '/en/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href^="/en/news/"]',
-    active: true,
+    active: false,  // deactivated — low-quality leads
   },
   {
     name: 'Juventus FC',
@@ -1475,7 +1578,7 @@ const sources: Source[] = [
     pressPath: '/en/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/articles/"]',
-    active: true, requiresJs: true,
+    active: false,  // deactivated — low-quality leads requiresJs: true,
   },
   {
     name: 'AC Milan',
@@ -1483,7 +1586,7 @@ const sources: Source[] = [
     pressPath: '/en/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/articles/"]',
-    active: true, requiresJs: true,
+    active: false,  // deactivated — low-quality leads requiresJs: true,
   },
 
   // ── SPORT — Ligue 1 (Tier 3) ─────────────────────────────────────────────────
@@ -1493,7 +1596,7 @@ const sources: Source[] = [
     pressPath: '/en/news',
     tier: 3, level: 'sport', category: 'sport',
     strategy: 'html', selector: 'a[href*="/news/"]',
-    active: true, requiresJs: true,
+    active: false,  // deactivated — low-quality leads requiresJs: true,
   },
 ]
 
@@ -1527,6 +1630,7 @@ export function getStats() {
       ngo:           active.filter((s) => s.level === 'ngo').length,
       international: active.filter((s) => s.level === 'international').length,
       sport:         active.filter((s) => s.level === 'sport').length,
+      press:         active.filter((s) => s.level === 'press').length,
     },
   }
 }
