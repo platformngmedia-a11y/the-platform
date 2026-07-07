@@ -152,8 +152,8 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2.5 bg-paper border border-line text-ink rounded-lg font-semibold hover:bg-white transition-colors"
                 >
-                  <Twitter size={16} />
-                  Twitter
+                  <X size={16} />
+                  X (Twitter)
                 </a>
               )}
             </div>
