@@ -1376,7 +1376,7 @@ const sources: Source[] = [
     feedUrl: 'https://guardian.ng/feed/',
     tier: 2, level: 'press', category: 'nigeria',
     strategy: 'rss', selector: '',
-    active: true,
+    active: false, // Cloudflare-blocked (403) — needs ScraperAPI routing to enable
   },
   {
     name: 'Daily Trust',
@@ -1394,7 +1394,7 @@ const sources: Source[] = [
     feedUrl: 'https://www.thecable.ng/feed',
     tier: 2, level: 'press', category: 'nigeria',
     strategy: 'rss', selector: '',
-    active: true,
+    active: false, // Cloudflare-blocked (403) — needs ScraperAPI routing to enable
   },
 
   // ── INTERNATIONAL PRESS — world news outlets (Tier 2/3) ─────────────────────
