@@ -19,7 +19,8 @@ export const featuredArticleQuery = groq`
 `
 
 export const breakingNewsQuery = groq`
-  *[_type == "article" && isBreaking == true] | order(publishedAt desc)[0...6] {
+  *[_type == "article" && isBreaking == true && dateTime(publishedAt) > dateTime(now()) - 60*60*24]
+  | order(publishedAt desc)[0...6] {
     _id, title, slug, publishedAt
   }
 `

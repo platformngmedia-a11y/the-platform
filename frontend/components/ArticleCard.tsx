@@ -5,6 +5,15 @@ import { OptimizedImage } from './OptimizedImage'
 type Variant = 'hero' | 'top' | 'grid' | 'horizontal' | 'minimal' | 'editors'
 interface Props { article: any; variant?: Variant }
 
+// Breaking treatment expires 24 hours after publication
+function isStillBreaking(article: any): boolean {
+  return (
+    article.isBreaking &&
+    article.publishedAt &&
+    Date.now() - new Date(article.publishedAt).getTime() < 24 * 60 * 60 * 1000
+  )
+}
+
 
 function CategoryPill({ cat }: { cat: any }) {
   const colorMap: Record<string, string> = {
@@ -70,7 +79,7 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
           </a>
         )}
         <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-          {article.isBreaking && (
+          {isStillBreaking(article) && (
             <span className="text-[10px] font-bold uppercase tracking-wider text-red-700 bg-red-50 px-2 py-0.5 rounded">Breaking</span>
           )}
           {cat && <CategoryPill cat={cat} />}

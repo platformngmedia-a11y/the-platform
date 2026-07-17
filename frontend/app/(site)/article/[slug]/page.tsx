@@ -79,6 +79,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const related = (latest as any[]).filter((a: any) => a._id !== article._id).slice(0, 4)
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
   const articleUrl = `${siteUrl}/article/${article.slug.current}`
+  // Breaking treatment expires 24 hours after publication
+  const isStillBreaking =
+    article.isBreaking &&
+    article.publishedAt &&
+    Date.now() - new Date(article.publishedAt).getTime() < 24 * 60 * 60 * 1000
   return (
     <>
       <script
@@ -108,7 +113,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </span>
             </div>
           )}
-          {article.isBreaking && (
+          {isStillBreaking && (
             <div className="flex items-center gap-2 text-red-700 bg-red-50 border border-red-100 rounded-lg px-3 py-2.5 mb-4 text-sm font-semibold">
               <AlertTriangle size={16} />
               This is a developing story. We will update as more details emerge.
