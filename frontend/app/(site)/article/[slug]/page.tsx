@@ -11,7 +11,6 @@ import { CommentsSection } from '@/components/CommentsSection'
 import { FactCheckCard } from '@/components/FactCheckCard'
 import { FactCheckLink } from '@/components/FactCheckLink'
 import { EditorNotes } from '@/components/EditorNotes'
-import { TrustMeter } from '@/components/TrustMeter'
 import { format } from 'date-fns'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -19,7 +18,6 @@ import { Clock, AlertTriangle } from 'lucide-react'
 import { CopyLinkButton } from '@/components/CopyLinkButton'
 import { newsArticleSchema } from '@/lib/schema'
 import { AuthorBadge } from '@/components/AuthorBadge'
-import { DepthBadge } from '@/components/DepthBadge'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
@@ -183,14 +181,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div className="article-body font-prose">
             <PortableText value={article.body} components={ptComponents} />
           </div>
-          {article.wordCount && (
-            <div className="mt-8 pt-6 border-t border-line">
-              <div className="flex items-center gap-3">
-                <h3 className="text-sm font-bold text-ink">Content Depth:</h3>
-                <DepthBadge article={article} />
-              </div>
-            </div>
-          )}
           {article.contentType === 'analysis' && (
             <div className="mt-8 pt-6 border-t border-line">
               <p className="text-xs text-muted italic">
@@ -250,9 +240,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </article>
         <aside className="space-y-8">
           <div className="sticky top-24 space-y-8">
-            {/* Trust Meter */}
-            <TrustMeter article={article} variant="full" />
-
             {article.linkedFactChecks && article.linkedFactChecks.length > 0 && (
               <div>
                 <h3 className="text-base font-extrabold text-ink border-b-2 border-ink pb-2 mb-4">Related Fact-Checks</h3>

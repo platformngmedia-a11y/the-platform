@@ -4,7 +4,6 @@ import { Search, X, SlidersHorizontal } from 'lucide-react'
 import { urlForImage } from '@/lib/sanity/image'
 import Image from 'next/image'
 import { formatDistanceToNow } from 'date-fns'
-import { calculateArticleTrustScore } from '@/lib/trust-scoring'
 
 interface SearchResult {
   _id: string
@@ -32,7 +31,6 @@ export function SearchModal({ isOpen, onClose }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [showFilters, setShowFilters] = useState(false)
   const [contentType, setContentType] = useState<string | null>(null)
-  const [trustLevel, setTrustLevel] = useState<string | null>(null)
   const [dateRange, setDateRange] = useState<'week' | 'month' | 'year' | 'all'>('all')
   const inputRef = useRef<HTMLInputElement>(null)
   const resultsRef = useRef<HTMLDivElement>(null)
@@ -75,17 +73,6 @@ export function SearchModal({ isOpen, onClose }: Props) {
       filtered = filtered.filter(r => r.contentType === contentType)
     }
 
-    // Trust level filter
-    if (trustLevel) {
-      filtered = filtered.filter(r => {
-        const trust = calculateArticleTrustScore(r as any)
-        if (trustLevel === 'excellent') return trust.level === 'Excellent'
-        if (trustLevel === 'good') return trust.level === 'Good'
-        if (trustLevel === 'fair') return trust.level === 'Fair'
-        return true
-      })
-    }
-
     // Date range filter
     if (dateRange !== 'all') {
       const now = new Date()
@@ -103,7 +90,7 @@ export function SearchModal({ isOpen, onClose }: Props) {
     }
 
     return filtered
-  }, [contentType, trustLevel, dateRange])
+  }, [contentType, dateRange])
 
   // Search
   const handleSearch = useCallback(async (q: string) => {
@@ -183,31 +170,6 @@ export function SearchModal({ isOpen, onClose }: Props) {
                         onClick={() => setContentType(opt.value)}
                         className={`px-2.5 py-1 rounded-full text-xs font-semibold transition ${
                           contentType === opt.value
-                            ? 'bg-navy text-white'
-                            : 'bg-white border border-line text-ink hover:border-navy'
-                        }`}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Trust Level */}
-                <div>
-                  <label className="block text-xs font-bold text-muted mb-1.5">Trust Level</label>
-                  <div className="flex flex-wrap gap-1.5">
-                    {[
-                      { value: null, label: 'All' },
-                      { value: 'excellent', label: '⭐ Excellent' },
-                      { value: 'good', label: '✓ Good' },
-                      { value: 'fair', label: '📊 Fair' },
-                    ].map(opt => (
-                      <button
-                        key={opt.value}
-                        onClick={() => setTrustLevel(opt.value)}
-                        className={`px-2.5 py-1 rounded-full text-xs font-semibold transition ${
-                          trustLevel === opt.value
                             ? 'bg-navy text-white'
                             : 'bg-white border border-line text-ink hover:border-navy'
                         }`}

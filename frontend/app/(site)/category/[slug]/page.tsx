@@ -1,7 +1,6 @@
 import { client } from '@/lib/sanity/client'
 import { articlesByCategoryQuery, allCategoriesQuery } from '@/lib/sanity/queries'
 import { ArticleCard } from '@/components/ArticleCard'
-import { CategoryFilterClient } from '@/components/CategoryFilterClient'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
@@ -43,9 +42,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         </div>
       )}
 
-      {/* Filtered Articles Grid with Sidebar */}
       {otherArticles.length > 0 && (
-        <CategoryFilterClient articles={otherArticles} categorySlug={slug} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {otherArticles.map((a: any) => (
+            <ArticleCard key={a._id} article={a} />
+          ))}
+        </div>
       )}
 
       {articles.length === 0 && <p className="text-center text-muted py-24">No stories in this section yet. Check back soon.</p>}

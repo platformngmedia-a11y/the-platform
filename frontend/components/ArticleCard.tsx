@@ -1,6 +1,5 @@
 import { formatDistanceToNow } from 'date-fns'
 import { Clock } from 'lucide-react'
-import { DepthBadge } from './DepthBadge'
 import { OptimizedImage } from './OptimizedImage'
 
 type Variant = 'hero' | 'top' | 'grid' | 'horizontal' | 'minimal' | 'editors'
@@ -75,7 +74,6 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
             <span className="text-[10px] font-bold uppercase tracking-wider text-red-700 bg-red-50 px-2 py-0.5 rounded">Breaking</span>
           )}
           {cat && <CategoryPill cat={cat} />}
-          {article.wordCount && <DepthBadge article={article} />}
         </div>
         <a href={href}>
           <h1 className="text-xl font-extrabold text-ink leading-[1.2] group-hover:text-[#1d70b8] transition-colors mb-1.5">
@@ -203,7 +201,6 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
       )}
       <div className="flex items-center gap-2 mb-1.5 flex-wrap">
         {cat && <CategoryPill cat={cat} />}
-        {article.wordCount && <DepthBadge article={article} />}
       </div>
       <a href={href}>
         <h2 className="font-bold text-ink group-hover:text-[#1d70b8] transition-colors line-clamp-2 leading-[1.3] text-[15px]">
