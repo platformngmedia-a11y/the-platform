@@ -5,8 +5,6 @@ import Image from 'next/image'
 import { urlForImage } from '@/lib/sanity/image'
 import { OptimizedImage } from '@/components/OptimizedImage'
 import { ArticleCard } from '@/components/ArticleCard'
-import { VerificationBadge } from '@/components/VerificationBadge'
-import { ExpertiseTags } from '@/components/ExpertiseTags'
 import { Mail, X } from 'lucide-react'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -35,8 +33,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!author) return {}
 
   return {
-    title: `${author.name}${author.isVerifiedJournalist ? ' (Verified)' : ''} | The Platform`,
-    description: author.bio || `Read articles by ${author.name} on The Platform. ${author.credibilityBadge ? `${author.credibilityBadge}.` : ''}`,
+    title: `${author.name} | The Platform`,
+    description: author.bio || `Read articles by ${author.name} on The Platform.`,
     openGraph: {
       title: author.name,
       description: author.bio,
@@ -81,57 +79,12 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
 
           {/* Author Info */}
           <div className={author.image ? 'md:col-span-2' : 'md:col-span-3'}>
-            <div className="flex items-start gap-3 mb-3">
-              <h1 className="text-4xl font-bold text-ink">{author.name}</h1>
-              {author.isVerifiedJournalist && (
-                <div className="flex-shrink-0 mt-2">
-                  <VerificationBadge author={author} size="lg" />
-                </div>
-              )}
-            </div>
+            <h1 className="text-4xl font-bold text-ink mb-3">{author.name}</h1>
 
             {author.role && <p className="text-lg text-muted font-semibold mb-4">{author.role}</p>}
 
-            {author.credibilityBadge && (
-              <div className="mb-4 inline-block">
-                <span
-                  className={`px-3 py-1.5 rounded-full text-sm font-semibold ${getBadgeStyle(
-                    author.credibilityBadge
-                  )}`}
-                >
-                  {getBadgeLabel(author.credibilityBadge)}
-                </span>
-              </div>
-            )}
-
             {author.bio && (
               <p className="text-lg leading-relaxed text-ink mb-6 max-w-2xl">{author.bio}</p>
-            )}
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 py-6 border-y border-line mb-6">
-              <div>
-                <p className="text-3xl font-bold text-navy">{articles.length}</p>
-                <p className="text-sm text-muted">Articles Published</p>
-              </div>
-              <div>
-                <p className="text-3xl font-bold text-navy">{author.articlesPublished || 0}</p>
-                <p className="text-sm text-muted">Total Count</p>
-              </div>
-              {author.expertise && author.expertise.length > 0 && (
-                <div>
-                  <p className="text-3xl font-bold text-navy">{author.expertise.length}</p>
-                  <p className="text-sm text-muted">Areas of Expertise</p>
-                </div>
-              )}
-            </div>
-
-            {/* Expertise */}
-            {author.expertise && author.expertise.length > 0 && (
-              <div className="mb-6">
-                <h3 className="font-semibold text-ink mb-3">Expertise</h3>
-                <ExpertiseTags expertise={author.expertise} />
-              </div>
             )}
 
             {/* Contact Info */}
@@ -161,24 +114,6 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
         </div>
       </section>
 
-      {/* About Section */}
-      <section className="mb-12 bg-paper rounded-lg p-8">
-        <h2 className="text-2xl font-bold text-ink mb-4">About {author.name}</h2>
-        <div className="max-w-3xl space-y-4 text-ink leading-relaxed">
-          {author.bio && <p>{author.bio}</p>}
-          {author.isVerifiedJournalist && (
-            <p className="text-sm text-muted border-l-4 border-green-500 pl-4">
-              ✓ <strong>Verified Journalist:</strong> This author has been verified as a professional
-              journalist by The Platform editorial team.
-            </p>
-          )}
-          <p className="text-sm text-muted border-l-4 border-navy/30 pl-4">
-            Articles published on The Platform undergo rigorous editorial review and fact-checking. All
-            sources are documented and available for review.
-          </p>
-        </div>
-      </section>
-
       {/* Articles Section */}
       {articles.length > 0 && (
         <section>
@@ -202,22 +137,4 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
   )
 }
 
-function getBadgeStyle(badge: string): string {
-  const styles: Record<string, string> = {
-    verified: 'bg-green-100 text-green-700',
-    senior: 'bg-blue-100 text-blue-700',
-    contributor: 'bg-purple-100 text-purple-700',
-    staff: 'bg-gray-100 text-gray-700',
-  }
-  return styles[badge] || 'bg-gray-100 text-gray-700'
-}
 
-function getBadgeLabel(badge: string): string {
-  const labels: Record<string, string> = {
-    verified: '✓ Verified Journalist',
-    senior: '★ Senior Editor',
-    contributor: '★ Verified Contributor',
-    staff: 'Staff Writer',
-  }
-  return labels[badge] || badge
-}

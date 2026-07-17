@@ -7,17 +7,14 @@ import { ArticleCard } from '@/components/ArticleCard'
 import { OptimizedImage } from '@/components/OptimizedImage'
 import { TagBadge } from '@/components/TagBadge'
 import { NewsletterStrip } from '@/components/NewsletterStrip'
-import { CommentsSection } from '@/components/CommentsSection'
 import { FactCheckCard } from '@/components/FactCheckCard'
 import { FactCheckLink } from '@/components/FactCheckLink'
-import { EditorNotes } from '@/components/EditorNotes'
 import { format } from 'date-fns'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Clock, AlertTriangle } from 'lucide-react'
 import { CopyLinkButton } from '@/components/CopyLinkButton'
 import { newsArticleSchema } from '@/lib/schema'
-import { AuthorBadge } from '@/components/AuthorBadge'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
@@ -122,15 +119,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div className="flex flex-wrap items-center justify-between gap-4 py-4 border-y border-line mb-6">
             <div className="flex-1">
               {article.author?.name && (
-                <div className="flex items-center gap-2 mb-1">
-                  <p className="text-sm font-bold text-ink">By {article.author.name}</p>
-                  {article.author && <AuthorBadge author={article.author} />}
-                </div>
-              )}
-              {article.author?.expertise && article.author.expertise.length > 0 && (
-                <p className="text-xs text-muted mb-1">
-                  Expertise: {article.author.expertise.join(', ')}
-                </p>
+                <p className="text-sm font-bold text-ink mb-1">By {article.author.name}</p>
               )}
               {article.author?.role && <p className="text-xs text-muted">{article.author.role}</p>}
               <div className="flex items-center gap-3 text-xs text-muted mt-0.5 flex-wrap">
@@ -145,12 +134,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                   <>
                     <span className="text-border">·</span>
                     <span className="flex items-center gap-1"><Clock size={11} />{article.readingTime} min read</span>
-                  </>
-                )}
-                {article.wordCount && (
-                  <>
-                    <span className="text-border">·</span>
-                    <span>{article.wordCount} words</span>
                   </>
                 )}
               </div>
@@ -188,28 +171,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </p>
             </div>
           )}
-          {article.contentType !== 'analysis' && article.sourcesUsed?.length > 0 && (
-            <div className="mt-8 pt-6 border-t border-line">
-              <h3 className="text-sm font-bold text-ink mb-3">Sources & References</h3>
-              <ul className="space-y-2.5 text-xs">
-                {article.sourcesUsed.map((source: any, i: number) => (
-                  <li key={i} className="flex gap-2">
-                    <span className="shrink-0 text-muted">•</span>
-                    <span>
-                      {source.url ? (
-                        <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-navy underline hover:text-navy-dark">
-                          {source.name}
-                        </a>
-                      ) : (
-                        source.name
-                      )}
-                      {source.type && <span className="text-muted"> ({source.type})</span>}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
           {article.correctionsApplied?.length > 0 && (
             <div className="mt-8 pt-6 border-t border-line">
               <h3 className="text-sm font-bold text-ink mb-3">Corrections & Updates</h3>
@@ -235,8 +196,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div className="bg-paper border border-line rounded-lg p-4 mt-6 text-xs text-muted leading-relaxed">
             <strong className="text-ink">Editorial standards:</strong> The Platform is committed to accuracy, fairness and independence. If you spot an error in this report, please <a href="/contact" className="text-navy underline">contact our corrections desk</a>.
           </div>
-          <EditorNotes article={article} />
-          <CommentsSection articleId={article._id} />
         </article>
         <aside className="space-y-8">
           <div className="sticky top-24 space-y-8">
