@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Mail, Users, TrendingUp, Target } from 'lucide-react'
+import { Mail, ShieldCheck, Smartphone, Target } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Advertise With Us | The Platform',
@@ -43,10 +43,10 @@ export default function AdvertisePage() {
     },
   ]
 
-  const stats = [
-    { icon: Users, label: 'Active Readers', value: '100K+' },
-    { icon: TrendingUp, label: 'Monthly Growth', value: '15%' },
-    { icon: Target, label: 'Nigerian Audience', value: '90%' },
+  const commitments = [
+    { icon: Target, label: 'Nigerian-focused audience' },
+    { icon: Smartphone, label: 'Mobile-first readership' },
+    { icon: ShieldCheck, label: 'Brand-safe editorial standards' },
   ]
 
   return (
@@ -61,20 +61,25 @@ export default function AdvertisePage() {
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* Commitments Section */}
       <section className="max-w-6xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {stats.map((stat, i) => {
-            const Icon = stat.icon
+          {commitments.map((item, i) => {
+            const Icon = item.icon
             return (
               <div key={i} className="text-center">
                 <Icon size={40} className="mx-auto text-navy mb-4" />
-                <p className="text-muted text-sm mb-2">{stat.label}</p>
-                <p className="text-4xl font-bold text-ink">{stat.value}</p>
+                <p className="text-lg font-semibold text-ink">{item.label}</p>
               </div>
             )
           })}
         </div>
+        <p className="text-center text-muted text-sm mt-8">
+          Request our media kit for current traffic and audience data —{' '}
+          <a href="mailto:platformngmedia@gmail.com?subject=Media%20Kit%20Request" className="text-navy underline">
+            get in touch
+          </a>.
+        </p>
       </section>
 
       {/* Why Advertise */}

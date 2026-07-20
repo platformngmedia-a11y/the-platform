@@ -1,12 +1,14 @@
 import type { Metadata } from 'next'
 import { Noto_Sans } from 'next/font/google'
 import './globals.css'
+import { Analytics }      from '@vercel/analytics/next'
 import { SiteHeader }     from '@/components/SiteHeader'
 import { SiteFooter }     from '@/components/SiteFooter'
 import { BreakingBanner } from '@/components/BreakingBanner'
 import { MobileNavBar }   from '@/components/MobileNavBar'
 import { DarkModeProvider } from '@/components/DarkModeProvider'
 import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistration'
+import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 import { client }         from '@/lib/sanity/client'
 import { VisualEditing }  from 'next-sanity/visual-editing'
 import { draftMode }      from 'next/headers'
@@ -77,6 +79,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <ServiceWorkerRegistration />
           {isDraftMode && <VisualEditing />}
         </DarkModeProvider>
+        <Analytics />
+        <GoogleAnalytics />
       </body>
     </html>
   )

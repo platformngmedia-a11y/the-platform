@@ -73,7 +73,7 @@ export function SiteFooter({ categories }: { categories: any[] }) {
                 <MapPin size={14} className="flex-shrink-0 mt-0.5 text-gold" />
                 <div>
                   <p className="text-gray-300">Nigeria</p>
-                  <p>Serving 100K+ readers daily</p>
+                  <p>Trusted news for Nigerians, everywhere</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
