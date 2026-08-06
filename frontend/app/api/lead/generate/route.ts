@@ -96,10 +96,14 @@ export async function POST(request: Request) {
     doc.categories = [{ _type: 'reference', _ref: category._id, _key: crypto.randomUUID() }]
   }
 
-  await adminClient.createOrReplace(doc)
-
-  // Mark the lead as "writing"
-  await adminClient.patch(leadId).set({ status: 'writing' }).commit()
+  try {
+    await adminClient.createOrReplace(doc)
+    // Mark the lead as "writing"
+    await adminClient.patch(leadId).set({ status: 'writing' }).commit()
+  } catch (err: any) {
+    const detail = err?.response?.body?.error?.reason ?? err.message
+    return Response.json({ error: `Could not save draft to Sanity: ${detail}` }, { status: 502, headers })
+  }
 
   return Response.json({
     success:   true,
