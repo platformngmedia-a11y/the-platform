@@ -36,7 +36,7 @@ async function fetchWithScraperApi(source: Source): Promise<{ leads: RawLead[]; 
 
     const sourceDomain = new URL(source.url).hostname
 
-    elements.slice(0, 10).each((_, el) => {
+    elements.slice(0, 5).each((_, el) => {
       const $el = $(el)
       let href = $el.attr('href') ?? ''
       const title = cleanText($el.text())

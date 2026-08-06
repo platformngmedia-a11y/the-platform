@@ -45,7 +45,7 @@ async function fetchWithBrowser(source: Source): Promise<{ leads: RawLead[]; err
 
     const rawLinks = await page.evaluate((selector: string) => {
       const els = Array.from(document.querySelectorAll(selector))
-      return els.slice(0, 15).map((el) => ({
+      return els.slice(0, 5).map((el) => ({
         href: (el as HTMLAnchorElement).href ?? '',
         text: (el.textContent ?? '').replace(/\s+/g, ' ').trim(),
       }))

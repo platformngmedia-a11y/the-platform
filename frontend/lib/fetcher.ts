@@ -23,7 +23,7 @@ async function fetchRss(source: Source): Promise<RawLead[]> {
   const leads: RawLead[] = []
   try {
     const feed = await parser.parseURL(source.feedUrl!)
-    for (const item of feed.items.slice(0, 10)) {
+    for (const item of feed.items.slice(0, 5)) {
       leads.push({
         headline:    cleanText(item.title ?? 'No title'),
         summary:     cleanText(item.contentSnippet ?? item.content ?? '').substring(0, 500),
@@ -73,7 +73,7 @@ async function fetchHtml(source: Source): Promise<RawLead[]> {
       }
     }
 
-    elements.slice(0, 10).each((_, el) => {
+    elements.slice(0, 5).each((_, el) => {
       const $el = $(el)
       let href  = $el.attr('href') ?? ''
       const title = cleanText($el.text())
