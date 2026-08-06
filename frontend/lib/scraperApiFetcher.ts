@@ -14,7 +14,7 @@ async function fetchWithScraperApi(source: Source): Promise<{ leads: RawLead[]; 
   if (!apiKey) return { leads: [], error: 'SCRAPER_API_KEY env var not set' }
 
   const targetUrl = source.url + source.pressPath
-  const scraperUrl = `https://api.scraperapi.com?api_key=${apiKey}&url=${encodeURIComponent(targetUrl)}&render=true`
+  const scraperUrl = `https://api.scraperapi.com?api_key=${apiKey}&url=${encodeURIComponent(targetUrl)}`
 
   try {
     const response = await fetch(scraperUrl, { signal: AbortSignal.timeout(60000) })
