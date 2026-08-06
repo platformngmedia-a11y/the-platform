@@ -28,7 +28,7 @@ async function fetchWithScraperApi(source: Source): Promise<{ leads: RawLead[]; 
 
     let elements = $(source.selector)
     if (elements.length === 0) {
-      for (const sel of ['article h2 a', '.post-title a', '.entry-title a', 'h2 a', 'h3 a']) {
+      for (const sel of ['article h2 a', '.post-title a', '.entry-title a', '.post-ticker-link', 'h2 a', 'h3 a']) {
         elements = $(sel)
         if (elements.length > 0) break
       }

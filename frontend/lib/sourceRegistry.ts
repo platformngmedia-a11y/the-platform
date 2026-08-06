@@ -27,7 +27,7 @@ const sources: Source[] = [
     url: 'https://nannews.ng',
     pressPath: '/',
     tier: 1, level: 'federal', category: 'nigeria',
-    strategy: 'scraper-api', selector: 'article h2 a, .entry-title a, h2 a, h3 a',
+    strategy: 'scraper-api', selector: 'a.post-ticker-link',
     active: true, scraperApi: true,
   },
 
