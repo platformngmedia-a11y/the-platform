@@ -64,11 +64,14 @@ async function createPost(
   linkDescription: string,
   imageUrl?: string,
   metadata?: Record<string, unknown>,
+  allowLinkAsset = true,
 ): Promise<PostResult> {
   try {
     const assets = imageUrl
       ? [{ image: { url: imageUrl, thumbnailUrl: imageUrl } }]
-      : [{ link: { url: linkUrl, title: linkTitle, description: linkDescription } }]
+      : allowLinkAsset
+        ? [{ link: { url: linkUrl, title: linkTitle, description: linkDescription } }]
+        : []
 
     const data = await gql(CREATE_POST, {
       input: {
@@ -76,7 +79,7 @@ async function createPost(
         text,
         schedulingType: 'automatic',
         mode:           'shareNow',
-        assets,
+        ...(assets.length ? { assets } : {}),
         ...(metadata ? { metadata } : {}),
         saveToDraft:    false,
       },
@@ -121,9 +124,10 @@ export async function postToSocial(options: BufferPostOptions): Promise<{
   }
 
   if (twChannelId) {
-    // Twitter: no image — avoids file size limit and works for all articles
+    // Twitter: no image (avoids file size limit) and no link asset — Buffer rejects
+    // link assets on Twitter. The URL is already in the tweet text.
     tasks.push(
-      createPost(twChannelId, twitterText(options), options.url, options.title, options.excerpt, undefined)
+      createPost(twChannelId, twitterText(options), options.url, options.title, options.excerpt, undefined, undefined, false)
         .then((r) => { results.twitter = r })
     )
   }
