@@ -9,9 +9,9 @@ export function SiteFooter({ categories }: { categories: any[] }) {
           <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
         </svg>
       ),
-      href: 'mailto:platformngmedia@gmail.com',
+      href: 'mailto:hello@theplatformng.com',
       label: 'Email',
-      title: 'platformngmedia@gmail.com'
+      title: 'hello@theplatformng.com'
     },
     {
       icon: (
@@ -72,15 +72,25 @@ export function SiteFooter({ categories }: { categories: any[] }) {
               <div className="flex items-start gap-2">
                 <MapPin size={14} className="flex-shrink-0 mt-0.5 text-gold" />
                 <div>
-                  <p className="text-gray-300">Nigeria</p>
-                  <p>Trusted news for Nigerians, everywhere</p>
+                  <p className="text-gray-300">Lagos, Nigeria</p>
+                  <p>The Platform Media Ltd • Registered in Nigeria</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <Mail size={14} className="flex-shrink-0 text-gold" />
-                <a href="mailto:platformngmedia@gmail.com" className="text-gray-300 hover:text-gold transition-colors">
-                  platformngmedia@gmail.com
-                </a>
+                <div className="flex flex-wrap gap-x-3 gap-y-1">
+                  <a href="mailto:hello@theplatformng.com" className="text-gray-300 hover:text-gold transition-colors">
+                    hello@theplatformng.com
+                  </a>
+                  <span className="text-gray-600">•</span>
+                  <a href="mailto:tips@theplatformng.com" className="text-gray-400 hover:text-gold transition-colors">
+                    tips@theplatformng.com
+                  </a>
+                  <span className="text-gray-600">•</span>
+                  <a href="mailto:corrections@theplatformng.com" className="text-gray-400 hover:text-gold transition-colors">
+                    corrections@theplatformng.com
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -133,7 +143,9 @@ export function SiteFooter({ categories }: { categories: any[] }) {
                 <ul className="space-y-1.5 text-sm">
                   {[
                     { label: 'About Us', href: '/about' },
+                    { label: 'Editorial Masthead', href: '/about#masthead' },
                     { label: 'Editorial Standards', href: '/about#standards' },
+                    { label: 'Corrections Policy', href: '/about#corrections' },
                     { label: 'Contact Newsroom', href: '/about#contact' },
                   ].map(item => (
                     <li key={item.label}>
@@ -167,7 +179,7 @@ export function SiteFooter({ categories }: { categories: any[] }) {
                     <a href="/advertise" className="hover:text-gold transition-colors">Advertise with Us</a>
                   </li>
                   <li>
-                    <a href="https://www.facebook.com/profile.php?id=61589626771382" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">Media Kit</a>
+                    <a href="/advertise#media-kit" className="hover:text-gold transition-colors">Media Kit</a>
                   </li>
                 </ul>
               </div>

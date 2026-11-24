@@ -14,6 +14,9 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Clock, AlertTriangle } from 'lucide-react'
 import { CopyLinkButton } from '@/components/CopyLinkButton'
+import { AuthorLink } from '@/components/AuthorLink'
+import { AuthorBadge } from '@/components/AuthorBadge'
+import { BookmarkButton } from '@/components/BookmarkButton'
 import { newsArticleSchema } from '@/lib/schema'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -124,7 +127,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div className="flex flex-wrap items-center justify-between gap-4 py-4 border-y border-line mb-6">
             <div className="flex-1">
               {article.author?.name && (
-                <p className="text-sm font-bold text-ink mb-1">By {article.author.name}</p>
+                <div className="flex items-center gap-2 flex-wrap mb-1">
+                  <span className="text-sm text-muted">By</span>
+                  <AuthorLink author={article.author} size="sm" showBadge />
+                  <AuthorBadge author={article.author} />
+                </div>
               )}
               {article.author?.role && <p className="text-xs text-muted">{article.author.role}</p>}
               <div className="flex items-center gap-3 text-xs text-muted mt-0.5 flex-wrap">
@@ -141,9 +148,16 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                     <span className="flex items-center gap-1"><Clock size={11} />{article.readingTime} min read</span>
                   </>
                 )}
+                {article.sourcesUsed?.length > 0 && (
+                  <>
+                    <span className="text-border">·</span>
+                    <span className="font-semibold text-navy">{article.sourcesUsed.length} Verified Sources</span>
+                  </>
+                )}
               </div>
             </div>
             <div className="flex items-center gap-2">
+              <BookmarkButton article={article} variant="icon" size="sm" />
               <span className="text-xs text-muted">Share:</span>
               <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(articleUrl)}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded border border-line hover:bg-paper transition-colors text-muted hover:text-ink text-xs font-bold">X</a>
               <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded border border-line hover:bg-paper transition-colors text-muted hover:text-ink text-xs font-bold">f</a>
@@ -199,7 +213,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           )}
           <NewsletterStrip variant="compact" />
           <div className="bg-paper border border-line rounded-lg p-4 mt-6 text-xs text-muted leading-relaxed">
-            <strong className="text-ink">Editorial standards:</strong> The Platform is committed to accuracy, fairness and independence. If you spot an error in this report, please <a href="/contact" className="text-navy underline">contact our corrections desk</a>.
+            <strong className="text-ink">Editorial standards:</strong> The Platform is committed to accuracy, fairness and independence. If you spot an error in this report, please <a href="/about#corrections" className="text-navy underline">contact our corrections desk</a>.
           </div>
         </article>
         <aside className="space-y-8">

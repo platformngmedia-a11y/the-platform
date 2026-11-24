@@ -8,5 +8,52 @@
     { "path": "/api/cron/fetch-nan",     "schedule": "0 7,19 * * *" },
     { "path": "/api/cron/health-check",  "schedule": "0 2 * * 0" },
     { "path": "/api/cron/cleanup",       "schedule": "0 3 * * *" }
+  ],
+  "headers": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "(?!^theplatformng\\.com$|^www\\.theplatformng\\.com$).*"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    },
+    {
+      "source": "/:path*",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.theplatformng.com"
+        }
+      ],
+      "destination": "https://theplatformng.com/:path*",
+      "permanent": true
+    }
   ]
 }

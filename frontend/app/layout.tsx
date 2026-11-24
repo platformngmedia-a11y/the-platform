@@ -23,14 +23,19 @@ const notoSans = Noto_Sans({
 
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME    ?? 'The Platform'
 const tagline  = process.env.NEXT_PUBLIC_SITE_TAGLINE ?? 'Dependable. True. Engaging.'
+const siteUrl  = process.env.NEXT_PUBLIC_SITE_URL     ?? 'https://theplatformng.com'
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default:  `${siteName} — ${tagline}`,
+    default:  `${siteName} — ${tagline} | Independent Nigerian Journalism`,
     template: `%s | ${siteName}`,
   },
-  description: `${siteName}: Nigeria's home of dependable, factual journalism that helps you make informed decisions.`,
-  openGraph: { type: 'website', locale: 'en_NG', siteName },
+  description: `${siteName} (theplatformng.com): Nigeria's home of dependable, fact-checked journalism covering politics, economy, analysis, and society.`,
+  alternates: {
+    canonical: './',
+  },
+  openGraph: { type: 'website', locale: 'en_NG', url: siteUrl, siteName },
   twitter:   { card: 'summary_large_image' },
   manifest: '/manifest.json',
   appleWebApp: {

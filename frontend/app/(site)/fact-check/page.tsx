@@ -1,6 +1,7 @@
 import { client }             from '@/lib/sanity/client'
 import { allFactChecksQuery } from '@/lib/sanity/queries'
 import { FactCheckCard }      from '@/components/FactCheckCard'
+import { claimReviewSchema }  from '@/lib/schema'
 import type { Metadata }      from 'next'
 
 export const revalidate = 300
@@ -12,9 +13,18 @@ export const metadata: Metadata = {
 
 export default async function FactCheckPage() {
   const checks = await client.fetch(allFactChecksQuery)
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://theplatformng.com'
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
+      {checks && checks.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(checks.slice(0, 10).map((c: any) => claimReviewSchema(c, siteUrl))),
+          }}
+        />
+      )}
       <div className="border-b-4 border-navy pb-4 mb-8">
         <p className="text-[10px] font-black uppercase tracking-widest text-muted mb-1">The Platform</p>
         <h1 className="font-serif text-4xl font-black text-ink">Fact Check</h1>

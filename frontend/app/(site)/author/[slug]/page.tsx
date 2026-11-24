@@ -5,6 +5,10 @@ import Image from 'next/image'
 import { urlForImage } from '@/lib/sanity/image'
 import { OptimizedImage } from '@/components/OptimizedImage'
 import { ArticleCard } from '@/components/ArticleCard'
+import { AuthorBadge } from '@/components/AuthorBadge'
+import { VerificationBadge } from '@/components/VerificationBadge'
+import { ExpertiseTags } from '@/components/ExpertiseTags'
+import { personSchema } from '@/lib/schema'
 import { Mail, X } from 'lucide-react'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -54,9 +58,16 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
   if (!author) notFound()
 
   const imageUrl = author.image ? urlForImage(author.image).width(400).height(400).url() : null
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://theplatformng.com'
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(personSchema(author, siteUrl)),
+        }}
+      />
       {/* Hero Section */}
       <section className="mb-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
@@ -79,12 +90,23 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
 
           {/* Author Info */}
           <div className={author.image ? 'md:col-span-2' : 'md:col-span-3'}>
-            <h1 className="text-4xl font-bold text-ink mb-3">{author.name}</h1>
+            <div className="flex items-center gap-3 flex-wrap mb-3">
+              <h1 className="text-4xl font-bold text-ink">{author.name}</h1>
+              <AuthorBadge author={author} />
+              <VerificationBadge author={author} size="sm" />
+            </div>
 
             {author.role && <p className="text-lg text-muted font-semibold mb-4">{author.role}</p>}
 
             {author.bio && (
               <p className="text-lg leading-relaxed text-ink mb-6 max-w-2xl">{author.bio}</p>
+            )}
+
+            {author.expertise && author.expertise.length > 0 && (
+              <div className="mb-6">
+                <p className="text-xs font-bold uppercase tracking-wider text-muted mb-2">Covered Beats &amp; Expertise</p>
+                <ExpertiseTags expertise={author.expertise} />
+              </div>
             )}
 
             {/* Contact Info */}

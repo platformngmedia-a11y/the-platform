@@ -74,10 +74,10 @@ export default function AdvertisePage() {
             )
           })}
         </div>
-        <p className="text-center text-muted text-sm mt-8">
+        <p id="media-kit" className="text-center text-muted text-sm mt-8 scroll-mt-20">
           Request our media kit for current traffic and audience data —{' '}
-          <a href="mailto:platformngmedia@gmail.com?subject=Media%20Kit%20Request" className="text-navy underline">
-            get in touch
+          <a href="mailto:hello@theplatformng.com?subject=Media%20Kit%20Request" className="text-navy underline">
+            get in touch (hello@theplatformng.com)
           </a>.
         </p>
       </section>
@@ -168,7 +168,7 @@ export default function AdvertisePage() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a
-              href="mailto:platformngmedia@gmail.com?subject=Advertising%20Inquiry"
+              href="mailto:hello@theplatformng.com?subject=Advertising%20Inquiry"
               className="inline-flex items-center gap-2 px-8 py-3 bg-gold text-navy rounded-lg font-semibold hover:bg-gold/90 transition-colors"
             >
               <Mail size={20} />
@@ -185,7 +185,7 @@ export default function AdvertisePage() {
           </div>
 
           <p className="text-gray-300 text-sm mt-6">
-            Email: <a href="mailto:platformngmedia@gmail.com" className="text-gold hover:underline">platformngmedia@gmail.com</a>
+            Email: <a href="mailto:hello@theplatformng.com" className="text-gold hover:underline">hello@theplatformng.com</a>
           </p>
         </div>
       </section>

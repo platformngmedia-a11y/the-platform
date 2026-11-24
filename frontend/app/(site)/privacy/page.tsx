@@ -72,7 +72,7 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-2xl font-bold text-ink mb-4">7. Your Rights</h2>
           <p className="text-lg text-muted leading-relaxed">
-            You have the right to access, correct, or delete your personal information. Contact us at platformngmedia@gmail.com to exercise these rights.
+            You have the right to access, correct, or delete your personal information. Contact us at hello@theplatformng.com to exercise these rights.
           </p>
         </section>
 
@@ -82,8 +82,8 @@ export default function PrivacyPage() {
             If you have questions about this Privacy Policy, contact us at:
           </p>
           <p className="text-lg font-semibold text-navy mt-4">
-            <a href="mailto:platformngmedia@gmail.com" className="hover:underline">
-              platformngmedia@gmail.com
+            <a href="mailto:hello@theplatformng.com" className="hover:underline">
+              hello@theplatformng.com
             </a>
           </p>
         </section>

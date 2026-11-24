@@ -80,8 +80,8 @@ export default function TermsPage() {
             For any questions about these Terms of Service, please contact us at:
           </p>
           <p className="text-lg font-semibold text-navy mt-4">
-            <a href="mailto:platformngmedia@gmail.com" className="hover:underline">
-              platformngmedia@gmail.com
+            <a href="mailto:hello@theplatformng.com" className="hover:underline">
+              hello@theplatformng.com
             </a>
           </p>
         </section>
