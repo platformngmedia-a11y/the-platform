@@ -21,7 +21,7 @@ export function SiteHeader({ categories }: { categories: any[] }) {
     { label: 'Sport',      href: '/category/sport' },
     { label: 'Technology', href: '/category/technology' },
     ...(categories ?? [])
-      .filter(c => !['nigeria','politics','economy','world','sport','technology'].includes(c.slug.current))
+      .filter(c => !['nigeria','politics','economy','world','opinion','analysis','news-analysis','fact-check','sport','technology'].includes(c.slug.current))
       .slice(0, 3)
       .map(c => ({ label: c.title, href: `/category/${c.slug.current}` })),
   ]

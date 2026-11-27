@@ -37,26 +37,37 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 }
 
+function getDisplayCaption(text?: string, articleTitle?: string): string | null {
+  const cleaned = (text || '').trim()
+  if (cleaned.length < 12) return null
+  if (/^[\W_]+$/.test(cleaned)) return null
+  if (/^(image|photo|picture|thumbnail|img|caption|untitled|n\/a|none)$/i.test(cleaned)) return null
+  if (articleTitle && cleaned.toLowerCase() === articleTitle.trim().toLowerCase()) return null
+  return cleaned
+}
+
 const ptComponents = {
   types: {
-    image: ({ value }: any) => (
-      <figure className="my-8">
-        <div className="aspect-video w-full rounded-sm overflow-hidden bg-paper">
+    image: ({ value }: any) => {
+      const caption = getDisplayCaption(value.caption || value.alt)
+      return (
+        <figure className="my-8">
           <OptimizedImage
             src={value}
             alt={value.alt || ''}
             width={1440}
             height={810}
+            mode="editorial"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 860px"
           />
-        </div>
-        {value.caption && (
-          <figcaption className="border-l-2 border-gold pl-3 text-xs text-muted mt-2.5 leading-relaxed">
-            {value.caption}
-          </figcaption>
-        )}
-      </figure>
-    ),
+          {caption && (
+            <figcaption className="border-l-2 border-gold pl-3 text-xs text-muted mt-2.5 leading-relaxed">
+              {caption}
+            </figcaption>
+          )}
+        </figure>
+      )
+    },
     callout: ({ value }: any) => {
       const styles: Record<string, string> = {
         info: 'bg-blue-50 border-blue-200 text-blue-900',
@@ -171,25 +182,27 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <CopyLinkButton url={articleUrl} /> 
             </div>
           </div>
-          {article.mainImage && (
-            <figure className="mb-8">
-              <div className="relative aspect-video w-full overflow-hidden rounded-sm bg-paper">
+          {article.mainImage && (() => {
+            const leadCaption = getDisplayCaption(article.mainImage?.alt, article.title)
+            return (
+              <figure className="mb-8">
                 <OptimizedImage
                   src={article.mainImage}
                   alt={article.mainImage?.alt ?? article.title}
                   width={1600}
                   height={900}
+                  mode="editorial"
                   priority
                   sizes="(max-width: 768px) 100vw, (max-width: 1280px) 66vw, 860px"
                 />
-              </div>
-              {article.mainImage?.alt && (
-                <figcaption className="border-l-2 border-gold pl-3 text-xs text-muted mt-2.5 leading-relaxed">
-                  {article.mainImage.alt}
-                </figcaption>
-              )}
-            </figure>
-          )}
+                {leadCaption && (
+                  <figcaption className="border-l-2 border-gold pl-3 text-xs text-muted mt-2.5 leading-relaxed">
+                    {leadCaption}
+                  </figcaption>
+                )}
+              </figure>
+            )
+          })()}
           <div className="article-body font-prose">
             <PortableText value={article.body} components={ptComponents} />
           </div>

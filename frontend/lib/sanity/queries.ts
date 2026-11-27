@@ -78,7 +78,16 @@ export const allCategoriesQuery = groq`
 
 export const articleBySlugQuery = groq`
   *[_type == "article" && slug.current == $slug][0] {
-    ${articleFields}, body, seoTitle, seoDescription
+    ${articleFields},
+    body[]{
+      ...,
+      _type == "image" => {
+        ...,
+        "asset": asset->
+      }
+    },
+    seoTitle,
+    seoDescription
   }
 `
 
