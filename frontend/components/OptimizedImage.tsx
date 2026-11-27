@@ -27,19 +27,26 @@ export function OptimizedImage({
 }: Props) {
   const [isLoading, setIsLoading] = useState(true)
 
-  const imageUrl = urlForImage(src).width(width).height(height).auto('format').quality(80).url()
+  // Request high-definition master crop from Sanity (respecting editor hotspot/crop)
+  // so Next.js Image optimizer never upscales a low-res 1x image on 2x/3x Retina displays.
+  const imageUrl = urlForImage(src)
+    .width(width)
+    .height(height)
+    .fit('crop')
+    .auto('format')
+    .quality(90)
+    .url()
   const blurDataUrl = getLQIPUrl(src)
 
   const defaultSizes =
     sizes ||
     `(max-width: 640px) 100vw,
-     (max-width: 1024px) 90vw,
-     (max-width: 1280px) 80vw,
+     (max-width: 1024px) 50vw,
      ${width}px`
 
   return (
     <div
-      className={`overflow-hidden ${className}`}
+      className={`w-full h-full overflow-hidden ${className}`}
       style={{
         position: 'relative',
         aspectRatio: `${width} / ${height}`,
@@ -49,6 +56,7 @@ export function OptimizedImage({
         src={imageUrl}
         alt={alt}
         fill
+        quality={85}
         sizes={defaultSizes}
         priority={priority}
         placeholder="blur"

@@ -8,11 +8,17 @@ export function OpinionCard({ opinion }: { opinion: any }) {
       <div className="shrink-0">
         {opinion.author?.image
           ? (
-            <div className="w-10 h-10 rounded-full overflow-hidden relative">
-              <Image src={urlForImage(opinion.author.image).width(80).height(80).url()} alt={opinion.author.name} fill className="object-cover" />
+            <div className="w-11 h-11 rounded-full overflow-hidden relative ring-1 ring-line">
+              <Image
+                src={urlForImage(opinion.author.image).width(160).height(160).fit('crop').auto('format').quality(85).url()}
+                alt={opinion.author.name}
+                fill
+                sizes="44px"
+                className="object-cover"
+              />
             </div>
           ) : (
-            <div className="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center text-xs font-bold">
+            <div className="w-11 h-11 rounded-full bg-navy text-white flex items-center justify-center text-xs font-bold">
               {opinion.author?.name?.split(' ').map((w: string) => w[0]).slice(0, 2).join('') ?? 'OP'}
             </div>
           )

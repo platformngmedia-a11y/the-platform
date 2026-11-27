@@ -6,7 +6,7 @@ export const articleFields = groq`
   "author": author->{ name, slug, image, role, credibilityBadge, articlesPublished, isVerifiedJournalist, expertise },
   "reviewedBy": reviewedBy->{ name, role },
   "categories": categories[]->{ title, slug },
-  "mainImage": mainImage { asset->, alt },
+  "mainImage": mainImage { asset->, alt, hotspot, crop },
   "sourcesUsed": sourcesUsed[] { name, url, type },
   "correctionsApplied": correctionsApplied[] { date, description },
   "linkedFactChecks": linkedFactChecks[]->{ _id, claim, slug, verdict, publishedAt, "checkedBy": checkedBy->{ name } }
@@ -66,7 +66,7 @@ export const featuredOpinionsQuery = groq`
   *[_type == "opinion"] | order(publishedAt desc)[0...6] {
     _id, title, slug, excerpt, publishedAt,
     "author": author->{ name, role, image },
-    "mainImage": mainImage { asset->, alt }
+    "mainImage": mainImage { asset->, alt, hotspot, crop }
   }
 `
 
@@ -103,7 +103,7 @@ export const opinionBySlugQuery = groq`
   *[_type == "opinion" && slug.current == $slug][0] {
     _id, title, slug, excerpt, body, publishedAt,
     "author": author->{ name, role, bio, image, twitter },
-    "mainImage": mainImage { asset->, alt },
+    "mainImage": mainImage { asset->, alt, hotspot, crop },
     "categories": categories[]->{ title, slug }
   }
 `

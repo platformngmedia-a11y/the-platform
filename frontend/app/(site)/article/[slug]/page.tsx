@@ -29,7 +29,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: article.title,
       description: article.excerpt,
-      images: article.mainImage ? [urlForImage(article.mainImage).width(1200).height(630).url()] : [],
+      images: article.mainImage
+        ? [urlForImage(article.mainImage).width(1200).height(630).fit('crop').auto('format').quality(85).url()]
+        : [],
     },
     twitter: { card: 'summary_large_image', title: article.title, description: article.excerpt },
   }
@@ -39,16 +41,20 @@ const ptComponents = {
   types: {
     image: ({ value }: any) => (
       <figure className="my-8">
-        <div className="rounded-lg overflow-hidden">
+        <div className="aspect-video w-full rounded-sm overflow-hidden bg-paper">
           <OptimizedImage
             src={value}
             alt={value.alt || ''}
-            width={800}
-            height={500}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 800px"
+            width={1440}
+            height={810}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 860px"
           />
         </div>
-        {value.caption && <figcaption className="text-center text-xs text-muted mt-2 italic">{value.caption}</figcaption>}
+        {value.caption && (
+          <figcaption className="border-l-2 border-gold pl-3 text-xs text-muted mt-2.5 leading-relaxed">
+            {value.caption}
+          </figcaption>
+        )}
       </figure>
     ),
     callout: ({ value }: any) => {
@@ -166,19 +172,23 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </div>
           </div>
           {article.mainImage && (
-            <div className="mb-8">
-              <div className="relative aspect-video w-full overflow-hidden rounded-lg">
+            <figure className="mb-8">
+              <div className="relative aspect-video w-full overflow-hidden rounded-sm bg-paper">
                 <OptimizedImage
                   src={article.mainImage}
                   alt={article.mainImage?.alt ?? article.title}
-                  width={840}
-                  height={472}
+                  width={1600}
+                  height={900}
                   priority
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 840px"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 66vw, 860px"
                 />
               </div>
-              {article.mainImage?.alt && <p className="text-xs text-muted mt-2 text-center italic">{article.mainImage.alt}</p>}
-            </div>
+              {article.mainImage?.alt && (
+                <figcaption className="border-l-2 border-gold pl-3 text-xs text-muted mt-2.5 leading-relaxed">
+                  {article.mainImage.alt}
+                </figcaption>
+              )}
+            </figure>
           )}
           <div className="article-body font-prose">
             <PortableText value={article.body} components={ptComponents} />

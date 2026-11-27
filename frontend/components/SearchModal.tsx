@@ -235,7 +235,7 @@ export function SearchModal({ isOpen, onClose }: Props) {
               <div className="divide-y divide-line">
                 {results.map((result, idx) => {
                   const imageUrl = result.mainImage
-                    ? urlForImage(result.mainImage).width(80).height(60).url()
+                    ? urlForImage(result.mainImage).width(320).height(180).fit('crop').auto('format').quality(85).url()
                     : null
                   const ago = formatDistanceToNow(new Date(result.publishedAt), {
                     addSuffix: true,
@@ -246,17 +246,18 @@ export function SearchModal({ isOpen, onClose }: Props) {
                       key={result._id}
                       href={`/article/${result.slug.current}`}
                       onClick={onClose}
-                      className={`flex gap-3 p-4 hover:bg-paper transition cursor-pointer ${
+                      className={`flex gap-3.5 p-4 hover:bg-paper transition cursor-pointer ${
                         idx === selectedIndex ? 'bg-paper' : ''
                       }`}
                     >
                       {imageUrl && (
-                        <div className="shrink-0 w-16 h-12 bg-line rounded overflow-hidden">
+                        <div className="shrink-0 w-24 aspect-video bg-line rounded-sm overflow-hidden">
                           <Image
                             src={imageUrl}
                             alt={result.title}
-                            width={80}
-                            height={60}
+                            width={320}
+                            height={180}
+                            sizes="96px"
                             className="object-cover w-full h-full"
                           />
                         </div>

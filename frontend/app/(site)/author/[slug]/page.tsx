@@ -25,7 +25,7 @@ const authorArticlesQuery = groq`
   | order(publishedAt desc)[0...12] {
     _id, title, slug, excerpt, publishedAt, readingTime,
     "author": author->{ name, credibilityBadge },
-    "mainImage": mainImage { asset->, alt },
+    "mainImage": mainImage { asset->, alt, hotspot, crop },
     "categories": categories[]->{ title, slug }
   }
 `
@@ -79,8 +79,9 @@ export default async function AuthorPage({ params }: { params: Promise<{ slug: s
                   <OptimizedImage
                     src={author.image}
                     alt={author.name}
-                    width={400}
-                    height={400}
+                    width={800}
+                    height={800}
+                    sizes="(max-width: 768px) 280px, 320px"
                     priority
                   />
                 </div>

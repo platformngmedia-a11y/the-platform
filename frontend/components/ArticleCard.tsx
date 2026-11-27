@@ -61,19 +61,20 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
   const cat  = article.categories?.[0]
   const href = `/article/${article.slug.current}`
 
-  /* hero */
+  /* hero — BBC 16:9 lead story standard (1600×900 master, priority LCP) */
   if (variant === 'hero') {
     return (
       <article className="group">
         {article.mainImage && (
-          <a href={href} className="block w-full aspect-[16/7] overflow-hidden bg-paper relative mb-3 group">
+          <a href={href} className="block w-full aspect-video overflow-hidden bg-paper relative mb-3.5 rounded-sm group">
             <div className="absolute inset-0 group-hover:scale-[1.02] transition-transform duration-500 origin-center">
               <OptimizedImage
                 src={article.mainImage}
                 alt={article.mainImage?.alt ?? article.title}
-                width={1200}
-                height={525}
-                sizes="(max-width: 1024px) 100vw, 1200px"
+                width={1600}
+                height={900}
+                priority
+                sizes="(max-width: 1024px) 100vw, 860px"
               />
             </div>
           </a>
@@ -85,30 +86,30 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
           {cat && <CategoryPill cat={cat} />}
         </div>
         <a href={href}>
-          <h1 className="text-xl font-extrabold text-ink leading-[1.2] group-hover:text-[#1d70b8] transition-colors mb-1.5">
+          <h1 className="text-2xl sm:text-[26px] font-extrabold text-ink leading-[1.18] tracking-tight group-hover:text-[#1d70b8] transition-colors mb-2">
             {article.title}
           </h1>
         </a>
         {article.excerpt && (
-          <p className="text-muted text-sm leading-relaxed line-clamp-2 mb-1.5">{article.excerpt}</p>
+          <p className="text-muted text-sm sm:text-[15px] leading-relaxed line-clamp-2 mb-2">{article.excerpt}</p>
         )}
         <Meta article={article} />
       </article>
     )
   }
 
-  /* top */
+  /* top — BBC 16:9 side-column thumbnail (136×76 display, 480×270 Retina source) */
   if (variant === 'top') {
     return (
-      <article className="group flex gap-3 border-b border-border pb-4 last:border-0 last:pb-0">
+      <article className="group flex gap-3.5 items-start border-b border-border pb-4 last:border-0 last:pb-0">
         {article.mainImage && (
-          <a href={href} className="shrink-0 w-20 h-16 overflow-hidden bg-paper relative group">
+          <a href={href} className="shrink-0 w-32 sm:w-36 aspect-video overflow-hidden bg-paper relative rounded-sm group">
             <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-300 origin-center">
               <OptimizedImage
                 src={article.mainImage}
                 alt={article.mainImage?.alt ?? article.title}
-                width={160}
-                height={128}
+                width={480}
+                height={270}
                 sizes="160px"
               />
             </div>
@@ -117,7 +118,7 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
         <div className="flex-1 min-w-0">
           {cat && <CategoryPill cat={cat} />}
           <a href={href}>
-            <h3 className="text-sm font-bold text-ink group-hover:text-[#1d70b8] transition-colors line-clamp-2 mt-1 leading-[1.3]">
+            <h3 className="text-sm font-bold text-ink group-hover:text-[#1d70b8] transition-colors line-clamp-2 mt-0.5 leading-[1.3]">
               {article.title}
             </h3>
           </a>
@@ -127,27 +128,27 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
     )
   }
 
-  /* horizontal */
+  /* horizontal — BBC 16:9 related story card (480×270 Retina source) */
   if (variant === 'horizontal') {
     return (
-      <article className="group flex gap-3 items-start">
+      <article className="group flex gap-3.5 items-start">
         {article.mainImage && (
-          <a href={href} className="shrink-0 w-28 h-20 overflow-hidden bg-paper relative group">
+          <a href={href} className="shrink-0 w-32 sm:w-36 aspect-video overflow-hidden bg-paper relative rounded-sm group">
             <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-300 origin-center">
               <OptimizedImage
                 src={article.mainImage}
                 alt={article.mainImage?.alt ?? article.title}
-                width={224}
-                height={160}
-                sizes="224px"
+                width={480}
+                height={270}
+                sizes="160px"
               />
             </div>
           </a>
         )}
-        <div>
+        <div className="flex-1 min-w-0">
           {cat && <CategoryPill cat={cat} />}
           <a href={href}>
-            <h3 className="text-sm font-bold text-ink group-hover:text-[#1d70b8] transition-colors line-clamp-2 mt-1 leading-[1.3]">
+            <h3 className="text-sm font-bold text-ink group-hover:text-[#1d70b8] transition-colors line-clamp-2 mt-0.5 leading-[1.3]">
               {article.title}
             </h3>
           </a>
@@ -192,18 +193,18 @@ export function ArticleCard({ article, variant = 'grid' }: Props) {
     )
   }
 
-  /* default grid */
+  /* default grid — BBC 16:9 standard grid card (960×540 Retina source) */
   return (
     <article className="group">
       {article.mainImage && (
-        <a href={href} className="block aspect-[16/10] overflow-hidden bg-paper mb-3 relative group">
+        <a href={href} className="block aspect-video overflow-hidden bg-paper mb-3 relative rounded-sm group">
           <div className="absolute inset-0 group-hover:scale-[1.02] transition-transform duration-300 origin-center">
             <OptimizedImage
               src={article.mainImage}
               alt={article.mainImage?.alt ?? article.title}
-              width={900}
-              height={560}
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 900px"
+              width={960}
+              height={540}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
             />
           </div>
         </a>

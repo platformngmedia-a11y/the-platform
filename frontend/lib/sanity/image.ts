@@ -6,8 +6,9 @@ export const urlForImage = (source: any) => builder.image(source)
 
 export function getLQIPUrl(source: any): string {
   return urlForImage(source)
-    .width(100)
-    .height(100)
+    .width(64)
+    .height(36)
+    .fit('crop')
     .quality(20)
     .blur(20)
     .auto('format')
@@ -20,13 +21,13 @@ export function getResponsiveImageUrl(
   height?: number
 ): string {
   const url = urlForImage(source).width(width)
-  if (height) url.height(height)
-  return url.auto('format').quality(80).url()
+  if (height) url.height(height).fit('crop')
+  return url.auto('format').quality(85).url()
 }
 
 export function getImageSrcSet(
   source: any,
-  widths: number[] = [640, 750, 828, 1080, 1200, 1920]
+  widths: number[] = [640, 750, 828, 1080, 1200, 1600, 1920]
 ): string {
   return widths
     .map(
@@ -34,7 +35,7 @@ export function getImageSrcSet(
         `${urlForImage(source)
           .width(w)
           .auto('format')
-          .quality(75)
+          .quality(85)
           .url()} ${w}w`
     )
     .join(', ')

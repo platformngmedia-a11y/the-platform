@@ -37,8 +37,8 @@ export async function POST(request: Request) {
   let instagramImageUrl: string | undefined
   try {
     if (payload.mainImage?.asset) {
-      imageUrl          = urlForImage(payload.mainImage).width(1200).height(630).url()
-      instagramImageUrl = urlForImage(payload.mainImage).width(700).height(700).quality(60).url()
+      imageUrl          = urlForImage(payload.mainImage).width(1200).height(630).fit('crop').auto('format').quality(85).url()
+      instagramImageUrl = urlForImage(payload.mainImage).width(1080).height(1080).fit('crop').auto('format').quality(85).url()
     }
   } catch { /* no image */ }
 

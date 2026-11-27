@@ -22,7 +22,8 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   const category = categories.find((c: any) => c.slug.current === slug)
   if (!category) notFound()
   const heroArticle = articles[0]
-  const otherArticles = articles.slice(1)
+  const topSectionArticles = articles.slice(1, 5)
+  const otherArticles = articles.slice(5)
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
@@ -37,8 +38,17 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
       </div>
 
       {heroArticle && (
-        <div className="mb-10 pb-10 border-b border-line">
-          <ArticleCard article={heroArticle} variant="hero" />
+        <div className="mb-10 pb-10 border-b border-line flex flex-col lg:flex-row gap-6 items-start">
+          <div className={`w-full ${topSectionArticles.length > 0 ? 'lg:w-2/3 lg:border-r lg:border-line lg:pr-6' : 'max-w-4xl'}`}>
+            <ArticleCard article={heroArticle} variant="hero" />
+          </div>
+          {topSectionArticles.length > 0 && (
+            <div className="w-full lg:w-1/3 space-y-4">
+              {topSectionArticles.map((a: any) => (
+                <ArticleCard key={a._id} article={a} variant="top" />
+              ))}
+            </div>
+          )}
         </div>
       )}
 
